@@ -13,6 +13,7 @@
         </style>
         <title>View Page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -82,9 +83,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script>
             $(document).ready(function() {
+                /*this is to make the select menu work with materialize*/
                 $('select').formSelect();
-                console.log($('.answers').last().children());
+
                 var answers_array = ['a', 'b', 'c', 'd', 'e'];
+
+                /*this is handling the options in each question*/
                 $('#add_option').on('click', function() {
                     var questions_amount = $('.questions').length;
                     if(questions_amount <= 10) {
@@ -95,6 +99,31 @@
                             var question = questions_amount;
                             var option = answers_array[answers_amount];
                             $('.answers').last().append(`<li><input type="text" class="validate" name="${question}-${option}"></li>`);
+                            $('.answers').last().find('li').each(function(i, ele) {
+                                if(ele.lastChild.nodeName == 'INPUT') {
+                                    var icon_ele = document.createElement('i');
+                                    icon_ele.classList.add('material-icons');
+                                    icon_ele.textContent = 'close';
+                                    ele.appendChild(icon_ele);
+                                }
+                            });
+                            /*I need to make the first two X's delete the first two options, maybe I could just loop over the li and add the event to the icon elements,
+                                and perhaps it is a good idea to destroy the event listener first*/
+
+                            $('.answers').last().find('i.material-icons').last().on('click', function(e) {
+                                var target = e.target;
+                                var li_ele = target.parentElement;
+                                var ol_ele = li_ele.parentElement;
+                                li_ele.remove();
+                                var new_amount = ol_ele.children.length;
+                                for(var i = 0; i < new_amount; i++) {
+                                    var li_ele = ol_ele.children.item(i);
+                                    li_ele.firstChild.setAttribute('name', `${question}-${answers_array[i]}`);
+                                }
+                                if($('#add_option').hasClass('disabled')) {
+                                    $('#add_option').removeClass('disabled');
+                                }
+                            });
                         }
 
                         if($('.answers').last().children().length == 5) {
@@ -102,6 +131,8 @@
                         }
                     }
                 })
+
+                /*this is for handling each question*/
                 $('#add_question').on('click', function() {
                     var questions_amount = $('.questions').length;
                     if(questions_amount < 10) {
