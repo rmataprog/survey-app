@@ -105,23 +105,35 @@
                                     icon_ele.classList.add('material-icons');
                                     icon_ele.textContent = 'close';
                                     ele.appendChild(icon_ele);
-                                }
-                            });
-                            /*I need to make the first two X's delete the first two options, maybe I could just loop over the li and add the event to the icon elements,
-                                and perhaps it is a good idea to destroy the event listener first*/
-
-                            $('.answers').last().find('i.material-icons').last().on('click', function(e) {
-                                var target = e.target;
-                                var li_ele = target.parentElement;
-                                var ol_ele = li_ele.parentElement;
-                                li_ele.remove();
-                                var new_amount = ol_ele.children.length;
-                                for(var i = 0; i < new_amount; i++) {
-                                    var li_ele = ol_ele.children.item(i);
-                                    li_ele.firstChild.setAttribute('name', `${question}-${answers_array[i]}`);
-                                }
-                                if($('#add_option').hasClass('disabled')) {
-                                    $('#add_option').removeClass('disabled');
+                                    icon_ele.addEventListener('click', function(e) {
+                                        var target = e.target;
+                                        var li_ele = target.parentElement;
+                                        var ol_ele = li_ele.parentElement;
+                                        li_ele.remove();
+                                        var new_amount = ol_ele.children.length;
+                                        for(var i = 0; i < new_amount; i++) {
+                                            var li_ele = ol_ele.children.item(i);
+                                            li_ele.firstChild.setAttribute('name', `${question}-${answers_array[i]}`);
+                                        }
+                                        if($('#add_option').hasClass('disabled')) {
+                                            $('#add_option').removeClass('disabled');
+                                        }
+                                        $('ol.answers').each(function(i, ol) {
+                                            var li_list = ol.getElementsByTagName('li');
+                                            console.log(li_list);
+                                            var li_amount = li_list.length;
+                                            console.log(li_amount);
+                                            if(li_amount < 3) {
+                                                for(var i = 0; i < 2; i++) {
+                                                    if(li_list.item(i).childNodes.length > 1) {
+                                                        var li = li_list.item(i);
+                                                        var icon = li.lastChild;
+                                                        li.removeChild(icon);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }, false);
                                 }
                             });
                         }
