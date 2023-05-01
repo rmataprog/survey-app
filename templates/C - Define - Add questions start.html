@@ -10,6 +10,9 @@
             main {
                 flex: 1 0 auto;
             }
+            li span {
+                font-size: 12px;
+            }
         </style>
         <title>View Page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -30,48 +33,51 @@
         </header>
         <main>
             <div class="container">
-                <div class="section">
-                    <div class="input-field col s12">
-                        <input type="text" class="validate" name="title" placeholder="Survey title">
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <div class="section">
-                    <ol>
-                        <li><input type="text" class="validate questions" name="1"></li>
-                    </ol>
-                    <ol style="list-style-type: lower-latin;padding: 0px 0px 0px 60px;" class="answers">
-                        <li><input type="text" class="validate" name="1-a"></li>
-                        <li><input type="text" class="validate" name="1-b"></li>
-                    </ol>
-                    <div class="row">
-                        <div class="col s6">
-                            <button class="waves-effect waves-light btn-small">remove question</button>
-                        </div>
-                        <div class="col s6">
-                            <button class="right waves-effect waves-light btn-small" id="add_option">add option</button>
+                <form>
+                    <div class="section">
+                        <div class="input-field col s12">
+                            <input type="text" class="validate" name="title" placeholder="Survey title" id="title">
+                            <span class="helper-text"></span>
                         </div>
                     </div>
-                </div>
-                <div class="divider"></div>
-                <div class="section">
-                    <div class="row">
-                        <div class="col s12">
-                            <button class="right waves-effect waves-light btn-small" id="add_question">add question</button>
+                    <div class="divider"></div>
+                    <div class="section" id="questions_list">
+                        <ol class="questions">
+                            <li>
+                                <input type="text" class="validate" name="q-1">
+                                <span class="helper-text"></span>
+                            </li>
+                            <ol style="list-style-type: lower-latin;" class="answers">
+                                <li><input type="text" class="validate" name="q-1-a"></li>
+                                <li><input type="text" class="validate" name="q-1-b"></li>
+                            </ol>
+                        </ol>
+                        <div class="row">
+                            <div class="col s12">
+                                <button class="right waves-effect waves-light btn-small" id="add_option">add option</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="divider"></div>
-                <div class="section">
-                    <div class="row">
-                        <div class="col s6">
-                            <button class="waves-effect waves-light btn-small">Cancel</button>
-                        </div>
-                        <div class="col s6">
-                            <button class="right waves-effect waves-light btn-small">Save</button>
+                    <div class="divider"></div>
+                    <div class="section">
+                        <div class="row">
+                            <div class="col s12">
+                                <button class="right waves-effect waves-light btn-small" id="add_question">add question</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="divider"></div>
+                    <div class="section">
+                        <div class="row">
+                            <div class="col s6">
+                                <button class="waves-effect waves-light btn-small" id="cancel">Cancel</button>
+                            </div>
+                            <div class="col s6">
+                                <button class="right waves-effect waves-light btn-small" id="save">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </main>
         <footer class="page-footer">
@@ -83,13 +89,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script>
             $(document).ready(function() {
+
                 /*this is to make the select menu work with materialize*/
                 $('select').formSelect();
 
                 var answers_array = ['a', 'b', 'c', 'd', 'e'];
 
-                /*this is handling the options in each question*/
-                $('#add_option').on('click', function() {
+                /*this is for adding options in each question*/
+
+                $('#add_option').on('click', function(e) {
+                    e.preventDefault();
                     var questions_amount = $('.questions').length;
                     if(questions_amount <= 10) {
 
@@ -98,7 +107,7 @@
                         if(answers_amount < 5) {
                             var question = questions_amount;
                             var option = answers_array[answers_amount];
-                            $('.answers').last().append(`<li><input type="text" class="validate" name="${question}-${option}"></li>`);
+                            $('.answers').last().append(`<li><input type="text" class="validate" name="q-${question}-${option}"></li>`);
                             $('.answers').last().find('li').each(function(i, ele) {
                                 if(ele.lastChild.nodeName == 'INPUT') {
                                     var icon_ele = document.createElement('i');
@@ -113,16 +122,14 @@
                                         var new_amount = ol_ele.children.length;
                                         for(var i = 0; i < new_amount; i++) {
                                             var li_ele = ol_ele.children.item(i);
-                                            li_ele.firstChild.setAttribute('name', `${question}-${answers_array[i]}`);
+                                            li_ele.firstChild.setAttribute('name', `q-${question}-${answers_array[i]}`);
                                         }
                                         if($('#add_option').hasClass('disabled')) {
                                             $('#add_option').removeClass('disabled');
                                         }
                                         $('ol.answers').each(function(i, ol) {
                                             var li_list = ol.getElementsByTagName('li');
-                                            console.log(li_list);
                                             var li_amount = li_list.length;
-                                            console.log(li_amount);
                                             if(li_amount < 3) {
                                                 for(var i = 0; i < 2; i++) {
                                                     if(li_list.item(i).childNodes.length > 1) {
@@ -144,22 +151,122 @@
                     }
                 })
 
-                /*this is for handling each question*/
-                $('#add_question').on('click', function() {
+                /*this is for adding questions*/
+
+                $('#add_question').on('click', function(e) {
+                    e.preventDefault();
                     var questions_amount = $('.questions').length;
                     if(questions_amount < 10) {
                         var new_question = questions_amount + 1;
-                        var html = `<ol start="${new_question}">
-                                        <li><input type="text" class="validate questions" name="${new_question}"></li>
-                                    </ol>
-                                    <ol style="list-style-type: lower-latin;padding: 0px 0px 0px 60px;" class="answers">
-                                        <li><input type="text" class="validate" name="${new_question}-a"></li>
-                                        <li><input type="text" class="validate" name="${new_question}-b"></li>
+                        var html = `<ol start="${new_question}" class="questions">
+                                        <li>
+                                            <input type="text" class="validate" name="q-${new_question}">
+                                            <span class="helper-text"></span>
+                                        </li>
+                                        <ol style="list-style-type: lower-latin;" class="answers">
+                                            <li><input type="text" class="validate" name="q-${new_question}-a"></li>
+                                            <li><input type="text" class="validate" name="q-${new_question}-b"></li>
+                                        </ol>
                                     </ol>`;
-                        $('.answers').last().after(html);
+                        $('.questions').last().after(html);
                         if($('#add_option').hasClass('disabled')) {
                             $('#add_option').removeClass('disabled');
                         }
+
+                        /*this is for adding the X icon for each question when there are more than one*/
+
+                        $('.questions').each((i, ol) => {
+                            if(ol.firstElementChild.lastElementChild.nodeName != 'I') {
+                                var icon = document.createElement('i');
+                                icon.classList.add("material-icons");
+                                icon.textContent = 'close';
+                                ol.firstElementChild.appendChild(icon);
+                                icon.addEventListener('click', function() {
+                                    ol.remove();
+                                    if($('.questions').length < 2) {
+                                        $('.questions').first().find('i').remove();
+                                    };
+                                    $('.questions').each((i, ol) => {
+                                        ol.setAttribute('start', i + 1);
+                                        ol.firstElementChild.setAttribute('name', `q-${i + 1}`);
+                                        var inputs = ol.getElementsByClassName('answers').item(0).querySelectorAll('li input');
+                                        inputs.forEach(function(ele, j) {
+                                            ele.setAttribute('name', `q-${i + 1}-${answers_array[j]}`);
+                                        });
+                                    });
+                                    if($('#add_question').hasClass('disabled')) {
+                                        $('#add_question').removeClass('disabled');
+                                    }
+                                }, false);
+                            }
+                        });
+                    }
+                    if(questions_amount + 1 == 10) {
+                        $(this).addClass('disabled');
+                    }
+                });
+
+                $('#cancel').on('click', function(e) {
+                    e.preventDefault();
+                    $('#title').val('');
+                    $('.questions').remove();
+                    $('#questions_list').prepend(`<ol class="questions">
+                            <li>
+                                <input type="text" class="validate" name="q-1">
+                                <span class="helper-text"></span>
+                            </li>
+                            <ol style="list-style-type: lower-latin;" class="answers">
+                                <li><input type="text" class="validate" name="q-1-a"></li>
+                                <li><input type="text" class="validate" name="q-1-b"></li>
+                            </ol>
+                        </ol>`);
+                });
+
+                $('#save').on('click', function(e) {
+                    e.preventDefault();
+                    var regex = /^[A-z0-9\s?]+$/;
+                    var valid = false;
+                    if(!regex.test($('#title').val()) || $('#title').val() == '') {
+                        valid = false;
+                        if($('#title').hasClass('valid') || !$('#title').hasClass('invalid')) {
+                            $('#title').removeClass('valid').addClass('invalid');
+                        }
+                        if($('#title').val() == '') {
+                            $('#title').siblings('span').last().attr('data-error', "Title can't be empty");
+                        } else {
+                            $('#title').siblings('span').last().attr('data-error', "Title can only have alpha numberic characters and interrogation symbol");
+                        }
+                    } else {
+                        if($('#title').hasClass('invalid') || !$('#title').hasClass('valid')) {
+                            $('#title').removeClass('invalid').addClass('valid');
+                        }
+                    }
+                    $('.questions').each((i, ol) => {
+                        var ele = ol.querySelectorAll('li input').item(0);
+                        var value = ele.value;
+                        if(!regex.test(value) || value == '') {
+                            valid = false;
+                            if(ele.classList.contains('valid') || !ele.classList.contains('invalid')) {
+                                ele.classList.remove('valid');
+                                ele.classList.add('invalid');
+                            }
+                            if(value == '') {
+                                ele.nextElementSibling.setAttribute('data-error', "Questions can't be empty");
+                            } else {
+                                ele.nextElementSibling.setAttribute('data-error', "Questions can only have alpha numberic characters and interrogation symbol");
+                            }
+                        } else {
+                            if(ele.classList.contains('invalid') || !ele.classList.contains('valid')) {
+                                ele.classList.remove('invalid');
+                                ele.classList.add('valid');
+                            }
+                        }
+                    });
+                    $('.answers li input').each((i, input) => {
+                        valid = !regex.test(input.value) || input.value == '' ? false : valid;
+                    });
+                    if(valid) {
+                        $('form').submit();
                     }
                 });
             })
