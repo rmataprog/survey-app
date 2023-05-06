@@ -35,16 +35,14 @@
                 <div class="row">
                     <form action="" method="POST">
                         <div class="input-field col s4 offset-s4">
-                            <select>
-                                <option value="" disabled selected>Select Survey</option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                            </select>
-                            <span class="helper-text red-text hide">No Surveys Available</span>
+                            <input type="text" class="datepicker" placeholder="start date" name="start_date">
+                            <input type="text" class="timepicker" placeholder="start time" name="start_time">
                         </div>
                         <div class="col offset-s4 s4">
-                            <button class="btn waves-effect waves-light right" type="submit" name="action">Retrieve</button>
+                            
+                        </div>
+                        <div class="col offset-s4 s4">
+                            <button class="btn waves-effect waves-light right" type="submit" name="start">Start</button>
                         </div>
                     </form>
                 </div>
@@ -60,6 +58,18 @@
         <script>
             $(document).ready(function() {
                 $('select').formSelect();
+                var datepicker_elems = document.querySelectorAll('.datepicker');
+                var datepicker_instances = M.Datepicker.init(datepicker_elems, { format: 'yyyy-mm-dd' });
+                var start_datepicker = M.Datepicker.getInstance(datepicker_elems.item(0));
+                var time_elems = document.querySelectorAll('.timepicker');
+                var time_instances = M.Timepicker.init(time_elems, { twelveHour: false });
+                var start_time = M.Timepicker.getInstance(time_elems.item(0));
+
+                $('form').first().on('submit', function(e) {
+                    e.preventDefault();
+                    console.log(start_datepicker.toString());
+                    console.log(start_time.time);
+                });
             })
         </script>
     </body>
