@@ -29,126 +29,105 @@
         </header>
         <main>
             <div class="container">
-                <div class="row">
-                    <h2 class="center-align">View Results</h2>
+                <div class="section">
+                    <div class="row">
+                        <h2 class="center-align">View Results</h2>
+                    </div>
                 </div>
-                <div class="row">
-                    <form action="" method="POST">
-                        <div class="input-field col s4 offset-s4">
-                            <select>
-                                <option value="" disabled selected>Select Survey</option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                            </select>
-                            <span class="helper-text red-text hide">No Surveys Available</span>
-                        </div>
-                        <div class="col s4 offset-s4">
-                            <button class="btn waves-effect waves-light right" type="submit" name="action">Get Results</button>
-                        </div>
-                    </form>
+                <div class="section">
+                    <div class="row">
+                        <table class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Question</th>
+                                    <th>chart</th>
+                                    <th>Answers</th>
+                                    <th>Selected</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="4">Question 1...</td>
+                                    <td rowspan="4"><div id="piechart_1" style="width: 200px; height: 200px;"></div></td>
+                                    <td>Answer 1</td>
+                                    <td>24</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 2</td>
+                                    <td>13</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 3</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 4</td>
+                                    <td>17</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">Question 2...</td>
+                                    <td rowspan="4"><div id="piechart_2" style="width: 200px; height: 200px;"></div></td>
+                                    <td>Answer 1</td>
+                                    <td>24</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 2</td>
+                                    <td>13</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 3</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 4</td>
+                                    <td>17</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">Question 3...</td>
+                                    <td rowspan="4"><div id="piechart_3" style="width: 200px; height: 200px;"></div></td>
+                                    <td>Answer 1</td>
+                                    <td>24</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 2</td>
+                                    <td>13</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 3</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 4</td>
+                                    <td>17</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="4">Question 4...</td>
+                                    <td rowspan="4"><div id="piechart_4" style="width: 200px; height: 200px;"></div></td>
+                                    <td>Answer 1</td>
+                                    <td>24</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 2</td>
+                                    <td>13</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 3</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>Answer 4</td>
+                                    <td>17</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="row">
-                    <table class="centered">
-                        <thead>
-                            <tr>
-                                <th>Question</th>
-                                <th>Answers</th>
-                                <th>Selected</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td rowspan="4">Question 1...<a href="#modal1" id="0" class="chart">SEE CHART</a></td>
-                                <td>Answer 1</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 2</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 3</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 4</td>
-                                <td>17</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="4">Question 2...<a href="#modal1" id="1" class="chart">SEE CHART</a></td>
-                                <td>Answer 1</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 2</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 3</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 4</td>
-                                <td>17</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="4">Question 3...<a href="#modal1" id="2" class="chart">SEE CHART</a></td>
-                                <td>Answer 1</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 2</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 3</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 4</td>
-                                <td>17</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="4">Question 4...<a href="#modal1" id="3" class="chart">SEE CHART</a></td>
-                                <td>Answer 1</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 2</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 3</td>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <td>Answer 4</td>
-                                <td>17</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="modal1" class="modal">
-                <div class="modal-content">
-                    <div class="preloader-wrapper big active" style="display: block;margin: 0px auto 0px auto;">
-                        <div class="spinner-layer spinner-blue-only">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="gap-patch">
-                                <div class="circle"></div>
-                            </div>
-                            <div class="circle-clipper right">
-                            <div class="circle"></div>
-                          </div>
+                <div class="section">
+                    <div class="row">
+                        <div class="col s12">
+                            <a class="btn waves-effect waves-light right">Back</a>
                         </div>
                     </div>
-                    <div id="piechart" style="width: 400px; height: 200px;margin: 0px auto 0px auto;" class="hide"></div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">CLOSE</a>
                 </div>
             </div>
         </main>
@@ -162,85 +141,72 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                var answers = [
-                    [ 
-                        { answer: 'answer 1', selected: 21 },
-                        { answer: 'answer 2', selected: 18 },
-                        { answer: 'answer 3', selected: 12 },
-                        { answer: 'answer 4', selected: 7 },
-                        { answer: 'answer 5', selected: 25 }
-                    ],
-                    [ 
-                        { answer: 'answer 1', selected: 5 },
-                        { answer: 'answer 2', selected: 8 },
-                        { answer: 'answer 3', selected: 12 },
-                        { answer: 'answer 4', selected: 17 },
-                        { answer: 'answer 5', selected: 11 }
-                    ],
-                    [ 
-                        { answer: 'answer 1', selected: 27 },
-                        { answer: 'answer 2', selected: 15 },
-                        { answer: 'answer 3', selected: 11 },
-                        { answer: 'answer 4', selected: 19 },
-                        { answer: 'answer 5', selected: 8 }
-                    ],
-                    [ 
-                        { answer: 'answer 1', selected: 7 },
-                        { answer: 'answer 2', selected: 22 },
-                        { answer: 'answer 3', selected: 18 },
-                        { answer: 'answer 4', selected: 15 },
-                        { answer: 'answer 5', selected: 9 }
-                    ]
-                ]
-                $('select').formSelect();
-
-                $('.modal').modal({ 'onCloseStart': closeModal , 'dismissible': false });
-
-                $('.chart').on('click', function(e) {
-                    console.log(e.target.id);
-
-                    var index = e.target.id;
-
-                    $('.modal').modal('open');
-                    
-                    setTimeout(function() {
-                        $('.preloader-wrapper').addClass('hide');
-                        drawChart(answers[index]);
-                        $('#piechart').removeClass('hide');
-                    }, 1500);
-                });
-
-                $('.modal-close').on('click', function() {
-                    $('.modal').modal('close');
-                })
-
-                function closeModal() {
-                    $('.preloader-wrapper').removeClass('hide');
-                    $('#piechart').addClass('hide');
-                }
 
                 /* Google charts */
 
                 google.charts.load('current', {'packages':['corechart']});
                 google.charts.setOnLoadCallback(drawChart);
 
-                function drawChart(input = []) {
-                    var input_array = [['Answers', 'Selected']];
+                function drawChart() {
+                    var header = ['Answers', 'Selected'];
 
-                    input.forEach((answer) => {
-                        input_array.push([answer.answer, answer.selected])
-                    });
+                    var answers = [
+                        [ 
+                            { answer: 'a', selected: 21 },
+                            { answer: 'b', selected: 18 },
+                            { answer: 'c', selected: 12 },
+                            { answer: 'd', selected: 7 }
+                        ],
+                        [ 
+                            { answer: 'a', selected: 5 },
+                            { answer: 'b', selected: 8 },
+                            { answer: 'c', selected: 12 },
+                            { answer: 'd', selected: 17 }
+                        ],
+                        [ 
+                            { answer: 'a', selected: 27 },
+                            { answer: 'b', selected: 15 },
+                            { answer: 'c', selected: 11 },
+                            { answer: 'd', selected: 19 }
+                        ],
+                        [ 
+                            { answer: 'a', selected: 7 },
+                            { answer: 'b', selected: 22 },
+                            { answer: 'c', selected: 18 },
+                            { answer: 'd', selected: 15 }
+                        ]
+                    ];
 
-                    var data = google.visualization.arrayToDataTable(input_array);
+                    var data_1 = google.visualization.arrayToDataTable(createArray(header, answers[0]));
+                    var data_2 = google.visualization.arrayToDataTable(createArray(header, answers[1]));
+                    var data_3 = google.visualization.arrayToDataTable(createArray(header, answers[2]));
+                    var data_4 = google.visualization.arrayToDataTable(createArray(header, answers[3]));
         
                     var options = {
-                        title: 'Question results'
+                        chartArea: {left:0,top:0,width:'100%',height:'100%'},
+                        width: 400
                     };
 
-                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    var chart_1 = new google.visualization.PieChart(document.getElementById('piechart_1'));
+                    var chart_2 = new google.visualization.PieChart(document.getElementById('piechart_2'));
+                    var chart_3 = new google.visualization.PieChart(document.getElementById('piechart_3'));
+                    var chart_4 = new google.visualization.PieChart(document.getElementById('piechart_4'));
 
-                    chart.draw(data, options);
+                    chart_1.draw(data_1, options);
+                    chart_2.draw(data_2, options);
+                    chart_3.draw(data_3, options);
+                    chart_4.draw(data_4, options);
                 };
+
+                function createArray(header, input) {
+                    var response = [];
+                    response.push(header);
+                    input.forEach((answer) => {
+                        response.push([answer.answer, answer.selected])
+                    });
+
+                    return response;
+                }
             });
         </script>
     </body>

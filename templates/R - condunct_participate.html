@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            main {
+                flex: 1 0 auto;
+            }
+            span.helper-text {
+                font-size: 12px;
+                color: red;
+            }
+        </style>
+        <title>Participate</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a class="brand-logo right">Logo</a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li class="active"><a>View</a></li>
+                        <li><a>Conduct</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div class="container">
+                <div class="section">
+                    <div class="row">
+                        <h2 class="center-align">Participate in Survey<br/><span class="helper-text center" id="helper-top"></span></h2>
+                    </div>
+                </div>
+                <div class="section hide">
+                    <div class="row">
+                        <h3 class="center-align red-text">
+                            No surveys available
+                        </h3>
+                    </div>
+                </div>
+                <div class="section">
+                    <form action="" method="POST">
+                        <ol class="collection" start="1">
+                            <li class="collection-item">Question 1<br /><span class="helper-text"></span></li>
+                            <p>
+                                <label>
+                                    <input name="qid" type="radio" value="aid"/>
+                                    <span>Red</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="qid" type="radio" value="aid"/>
+                                    <span>Yellow</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="qid" type="radio" value="aid"/>
+                                    <span>Green</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="qid" type="radio" value="aid"/>
+                                    <span>Brown</span>
+                                </label>
+                            </p>
+                        </ol>
+                        <ol class="collection" start="1">
+                            <li class="collection-item">Question 1<br /><span class="helper-text"></span></li>
+                            <p>
+                                <label>
+                                    <input name="qid2" type="radio" value="aid"/>
+                                    <span>Red</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="qid2" type="radio" value="aid"/>
+                                    <span>Yellow</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="qid2" type="radio" value="aid"/>
+                                    <span>Green</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input name="qid2" type="radio" value="aid"/>
+                                    <span>Brown</span>
+                                </label>
+                            </p>
+                        </ol>
+                        <div class="row">
+                            <div class="col s6 left"><button class="btn">cancel</button></div>
+                            <div class="col s6"><button class="btn right" id="submit">submit</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container center-align">© 2023 Survey App</div>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#submit').on('click', function(e) {
+                    e.preventDefault();
+                    var form_valid = true;
+                    $('form ol').each((i, ol) => {
+                        var valid = false;
+                        ol.querySelectorAll('input[type="radio"]').forEach((input, i) => {
+                            if(input.checked) {
+                                valid = input.checked;
+                            };
+                        });
+
+                        if(!valid) {
+                            form_valid = valid;
+                            ol.getElementsByTagName('li').item(0).getElementsByTagName('span').item(0).textContent= 'Please answer this question';
+                        }
+                    });
+
+                    if(!form_valid) {
+                        $('#helper-top').text('Not all questions were answered, please check');
+                    }
+                });
+            })
+        </script>
+    </body>
+</html>
