@@ -41,17 +41,33 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s6 offset-s3">
+                                <input type="text" name="first_name" class="validate">
+                                <label for="first_name">First name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <input type="text" name="last_name" class="validate">
+                                <label for="last_name">Last name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
                                 <input type="password" name="password" class="validate">
                                 <label for="password">Password</label>
                                 <span class="helper-text hide"></span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col s3 left offset-s3"><a href="" class="btn">Register</a></div>
-                            <div class="col s3"><button class="btn right" id="submit">Login</button></div>
+                            <div class="input-field col s6 offset-s3">
+                                <input type="password" name="confirm" class="validate">
+                                <label for="password">Confirm password</label>
+                                <span class="helper-text hide"></span>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col s3 left offset-s3"><a href="">Forgot password</a></div>
+                            <div class="col s3 left offset-s3"><a href="" class="btn">Cancel</a></div>
+                            <div class="col s3"><button class="btn right" id="submit">Register</button></div>
                         </div>
                     </form>
                 </div>
@@ -73,48 +89,61 @@
                     var email_regex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
                     var email = document.forms.item(0).email;
                     var password = document.forms.item(0).password;
+                    var password_regex = /^[a-zA-Z0-9!#$%&_^]{8,12}$/;
+                    var confirm = document.forms.item(0).confirm;
+
                     if(email.value == '' || !email_regex.test(email.value)) {
-                        helper_texts.item(0).setAttribute('data-error', 'Please provide a well formatted email');
-                        if(helper_texts.item(0).classList.contains('hide')) {
-                            helper_texts.item(0).classList.toggle('hide');
-                        }
-                        if(!email.classList.contains('invalid')) {
-                            email.classList.toggle('invalid');
-                        }
+                        error_message_adder(0, email, helper_texts, 'Please provide a well formatted email');
                         valid = false;
                     } else {
-                        if(!helper_texts.item(0).classList.contains('hide')) {
-                            helper_texts.item(0).classList.toggle('hide');
-                        }
-                        if(email.classList.contains('invalid')) {
-                            email.classList.toggle('invalid');
-                        }
+                        class_toggler(0, email, helper_texts);
                     }
 
                     if(password.value.length == 0) {
-                        helper_texts.item(1).setAttribute('data-error', 'Please provide a password');
-                        helper_texts.item(1).classList.toggle('hide');
-                        if(helper_texts.item(1).classList.contains('hide')) {
-                            helper_texts.item(1).classList.toggle('hide');
-                        }
-                        if(!password.classList.contains('invalid')) {
-                            password.classList.toggle('invalid');
-                        }
+                        console.log('leng');
+                        error_message_adder(1, password, helper_texts, 'Please provide a password');
+                        valid = false;
+                    } else if (!password_regex.test(password.value)) {
+                        console.log('test');
+                        error_message_adder(1, password, helper_texts, 'Password must have between 8 and 12 characters');
                         valid = false;
                     } else {
-                        if(!helper_texts.item(1).classList.contains('hide')) {
-                            helper_texts.item(1).classList.toggle('hide');
-                        }
-                        if(password.classList.contains('invalid')) {
-                            password.classList.toggle('invalid');
-                        }
+                        class_toggler(1, password, helper_texts);
+                    }
+
+                    if(confirm.value != password.value) {
+                        error_message_adder(2, confirm, helper_texts, 'Password and confirmation password must match, please check');
+                        valid = false;
+                    } else {
+                        class_toggler(2, confirm, helper_texts);
                     }
 
                     if(valid) {
-                        console.log('llego');
                         $('form').submit();
                     }
+
+
                 });
+
+                function error_message_adder(item, element, helper_texts, message) {
+                    helper_texts.item(item).setAttribute('data-error', message);
+                    helper_texts.item(item).classList.toggle('hide');
+                    if(helper_texts.item(item).classList.contains('hide')) {
+                        helper_texts.item(item).classList.toggle('hide');
+                    }
+                    if(!element.classList.contains('invalid')) {
+                        element.classList.toggle('invalid');
+                    }
+                }
+
+                function class_toggler(item, element, helper_texts) {
+                    if(!helper_texts.item(item).classList.contains('hide')) {
+                        helper_texts.item(item).classList.toggle('hide');
+                    }
+                    if(element.classList.contains('invalid')) {
+                        element.classList.toggle('invalid');
+                    }
+                }
             })
         </script>
     </body>
