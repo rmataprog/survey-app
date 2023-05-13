@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            main {
+                flex: 1 0 auto;
+            }
+            .btn {
+                width: 100%;
+            }
+        </style>
+        <title>Survey App</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a class="brand-logo center">Logo</a>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div class="container">
+                <div class="section">
+                    <div class="row">
+                        <h2 class="center-align">Survey App</h2>
+                    </div>
+                </div>
+                <div class="section">
+                    <form action="" method="POST">
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <input type="email" name="email" class="validate">
+                                <label for="email">Email</label>
+                                <span class="helper-text hide"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <input type="password" name="password" class="validate">
+                                <label for="password">Password</label>
+                                <span class="helper-text hide"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col offset-s3 s6"><button class="btn waves-effect waves-light orange accent-4" id="submit" style="width: 100%">Login</button></div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6 offset-s3"><a href="" class="btn waves-effect waves-light deep-purple lighten-5 black-text" style="width: 100%">Forgot password</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container center-align">© 2023 Survey App</div>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#submit').on('click', function(e) {
+                    var valid = true;
+                    e.preventDefault();
+                    var helper_texts = document.getElementsByClassName('helper-text');
+                    var email_regex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                    var email = document.forms.item(0).email;
+                    var password = document.forms.item(0).password;
+                    if(email.value == '' || !email_regex.test(email.value)) {
+                        helper_texts.item(0).setAttribute('data-error', 'Please provide a well formatted email');
+                        if(helper_texts.item(0).classList.contains('hide')) {
+                            helper_texts.item(0).classList.toggle('hide');
+                        }
+                        if(!email.classList.contains('invalid')) {
+                            email.classList.toggle('invalid');
+                        }
+                        valid = false;
+                    } else {
+                        if(!helper_texts.item(0).classList.contains('hide')) {
+                            helper_texts.item(0).classList.toggle('hide');
+                        }
+                        if(email.classList.contains('invalid')) {
+                            email.classList.toggle('invalid');
+                        }
+                    }
+
+                    if(password.value.length == 0) {
+                        helper_texts.item(1).setAttribute('data-error', 'Please provide a password');
+                        helper_texts.item(1).classList.toggle('hide');
+                        if(helper_texts.item(1).classList.contains('hide')) {
+                            helper_texts.item(1).classList.toggle('hide');
+                        }
+                        if(!password.classList.contains('invalid')) {
+                            password.classList.toggle('invalid');
+                        }
+                        valid = false;
+                    } else {
+                        if(!helper_texts.item(1).classList.contains('hide')) {
+                            helper_texts.item(1).classList.toggle('hide');
+                        }
+                        if(password.classList.contains('invalid')) {
+                            password.classList.toggle('invalid');
+                        }
+                    }
+
+                    if(valid) {
+                        console.log('llego');
+                        $('form').submit();
+                    }
+                });
+            })
+        </script>
+    </body>
+</html>

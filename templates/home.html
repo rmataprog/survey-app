@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s6">
+            <img src="img/online-survey.png" alt="online-survey" class="responsive-img">
+        </div>
+        <div class="col s6">
+            <h2>Create your own Surveys</h2>
+            <ul class="collection">
+                <li class="collection-item">Create your account to see available surveys</li>
+                <li class="collection-item">Or create a premium account to create and share your own surveys</li>
+                <li class="collection-item">You'll be able to see results</li>
+                <li class="collection-item">Share your survey</li>
+                <li class="collection-item">See how many people have submitted their responses</li>
+            </ul>
+            <div class="row">
+                <div class="col s6"><a class="btn waves-effect waves-light orange accent-4">Register</a></div>
+                <div class="col s6"><a href="login.php" class="btn waves-effect waves-light orange accent-4 right">Login</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
