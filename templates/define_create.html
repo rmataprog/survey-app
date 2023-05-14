@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App - Define Create
+{% endblock %}
+
+{% block menu %}
+<div class="nav-wrapper deep-purple darken-4">
+    <a class="brand-logo right">SURVEY APP</a>
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="{{ doc_root }}view.php">View</a></li>
+        <li class="active"><a href="{{ doc_root }}define.php">Define</a></li>
+        <li><a href="{{ doc_root }}conduct.php">Conduct</a></li>
+        <li><a href="{{ doc_root }}logout.php">Sign out</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form id="createForm" action="{{ doc_root }}define_create.php" method="POST">
+        <div class="section">
+            <div class="input-field col s12">
+                <input type="text" class="validate" name="title" placeholder="Survey title" id="title">
+                <span class="helper-text"></span>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section" id="questions_list">
+            <ol class="questions">
+                <li>
+                    <input type="text" class="validate" name="q-1">
+                    <span class="helper-text"></span>
+                </li>
+                <ol style="list-style-type: lower-latin;" class="answers">
+                    <li>
+                        <input type="text" class="validate" name="q-1-a">
+                        <span class="helper-text"></span>
+                    </li>
+                    <li>
+                        <input type="text" class="validate" name="q-1-b">
+                        <span class="helper-text"></span>
+                    </li>
+                </ol>
+            </ol>
+            <div class="row">
+                <div class="col s12">
+                    <button class="right waves-effect waves-light btn-small orange accent-4" id="add_option">add option</button>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <button class="right waves-effect waves-light btn-small orange accent-4" id="add_question">add question</button>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <div class="row">
+                <div class="col s6">
+                    <button class="waves-effect waves-light btn-small orange accent-4" id="cancel">Cancel</button>
+                </div>
+                <div class="col s6">
+                    <button class="right waves-effect waves-light btn-small orange accent-4" type="submit" id="save">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ doc_root }}js/create.js"></script>
+{% endblock %}

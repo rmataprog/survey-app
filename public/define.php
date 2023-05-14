@@ -2,9 +2,11 @@
 declare(strict_types = 1);
 require '../src/bootstrap.php';
 
-require_login($logged_in);
+if(!$cms->getSession()->logged_in) {
+    redirect('login.php');
+}
 
-$id = $_SESSION['user_id'];
+$id = $cms->getSession()->id;
 
 $surveys_amount = $cms->getSurvey()->surveys_exist($id);
 $data['surveys_amount'] = $surveys_amount;

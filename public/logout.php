@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 require '../src/bootstrap.php';
 
-logout();
+$cms->getSession()->delete();
+
 redirect('login.php');
 ?>

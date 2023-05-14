@@ -5,7 +5,7 @@ require '../src/bootstrap.php';
 $data['error']['email']['look'] = 'hide';
 $data['error']['email']['message'] = '';
 
-if($logged_in) {
+if($cms->getSession()->logged_in) {
     redirect('view.php');
 }
 
@@ -23,8 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data['error']['password']['message'] = 'password is incorrect';
             echo $twig->render('login.html', $data);
         } else {
-            login();
-            $_SESSION['user_id'] = $data['id'];
+            $cms->getSession()->start($data);
             redirect('view.php');
         }
     } else {
