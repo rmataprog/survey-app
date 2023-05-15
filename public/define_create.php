@@ -30,6 +30,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         array_push($answers_array_output, [$q_id, $content]);
     }
     $cms->getSurvey()->create_answers($answers_array_output);
+    $added_answers = $cms->getSurvey()->get_survey($survey_id);
+    $survey = [];
+    $survey['title'] = $title;
+    $survey['questions'] = [];
+    foreach($questions_id as $question) {
+        $res['question'] = $question;
+        $q_id = $question['id'];
+        $answers_for_question = array_filter($added_answers, function($a, $i) use($q_id) {
+            return $a['question_id'] == $q_id;
+        }, ARRAY_FILTER_USE_BOTH);
+        $res['answers'] = $answers_for_question;
+        array_push($survey['questions'], $res);
+    }
+    echo $twig->render('survey_defined.html', $survey);
 } else {
     echo $twig->render('define_create.html');
 }

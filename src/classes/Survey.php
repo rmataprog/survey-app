@@ -57,7 +57,7 @@ class Survey {
     }
 
     public function get_questions(int|string $id) {
-        $sql = "SELECT id
+        $sql = "SELECT *
             FROM question
             WHERE question.survey_id = :id";
         $input = [
@@ -83,6 +83,18 @@ class Survey {
             $counter += 1;
         }
         $this->db->runSQL($sql, $input);
+    }
+
+    public function get_survey(int|string $id) {
+        $sql = "SELECT a.*
+            FROM survey AS s
+            INNER JOIN question AS q ON q.survey_id = s.id
+            INNER JOIN answer AS a ON q.id = a.question_id
+            WHERE s.id = :id";
+        $input = [
+            "id"=>$id
+        ];
+        return $this->db->runSQL($sql, $input)->fetchAll();
     }
 }
 ?>
