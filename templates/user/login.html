@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}Survey App - Login{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="section">
+        <div class="row">
+            <h2 class="center-align">Survey App</h2>
+        </div>
+    </div>
+    <div class="section">
+        <form action="{{ doc_root }}user/login.php" method="POST" id="login">
+            <div class="row">
+                <div class="input-field col s6 offset-s3">
+                    <input type="email" name="email" class="validate {{ error.email.validity }}">
+                    <label for="email">Email</label>
+                    <span class="helper-text {{ error.email.look }}" data-error="{{ error.email.message }}"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6 offset-s3">
+                    <input type="password" name="password" class="validate {{ error.password.validity }}">
+                    <label for="password">Password</label>
+                    <span class="helper-text {{ error.password.look }}" data-error="{{ error.password.message }}"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col offset-s3 s6">
+                    <button class="btn waves-effect waves-light orange accent-4" id="submit" style="width: 100%">
+                        Login
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6 offset-s3">
+                    <a href="" class="btn waves-effect waves-light deep-purple lighten-5 black-text" style="width: 100%">
+                        Forgot password
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ doc_root }}js/login.js"></script>
+{% endblock %}

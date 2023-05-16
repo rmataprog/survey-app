@@ -26,6 +26,21 @@ class Survey {
         return $this->db->runSQL($sql, $input)->fetchColumn();
     }
 
+    public function get_survey_for_user(int $id, int|string $survey_id): array {
+        $sql = "SELECT id,
+            title,
+            start_date,
+            end_date
+            FROM survey
+            WHERE survey.user_id = :id
+                AND survey.id = :survey_id";
+        $input = [
+            "id"=>$id,
+            "survey_id"=>$survey_id
+        ];
+        return $this->db->runSQL($sql, $input)->fetch();
+    }
+
     public function create_survey(int $id, string $title) {
         $sql = "INSERT INTO survey (title, user_id)
             VALUES (:title, :id)";
@@ -35,6 +50,19 @@ class Survey {
         ];
         $this->db->runSQL($sql, $input);
         return $this->db->lastInsertId();
+    }
+
+    public function start_survey(int|string $id, string $start_date, string $end_date) {
+        $sql = "UPDATE survey
+            SET start_date = :start_date,
+                end_date = :end_date
+            WHERE id = :id";
+        $input = [
+            "end_date"=>$end_date,
+            "start_date"=>$start_date,
+            "id"=>$id
+        ];
+        $this->db->runSQL($sql, $input);
     }
 
     public function create_questions(int|string $id, array $questions) {
@@ -85,7 +113,7 @@ class Survey {
         $this->db->runSQL($sql, $input);
     }
 
-    public function get_survey(int|string $id) {
+    public function get_answers(int|string $id) {
         $sql = "SELECT a.*
             FROM survey AS s
             INNER JOIN question AS q ON q.survey_id = s.id

@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App - Define
+{% endblock %}
+
+{% block menu %}
+{{ include('define/menu.html') }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="center-align">Define Survey</h2>
+    </div>
+    <div class="row">
+        <div>
+            <p class="center-align flow-text">Define one from scratch...</p>
+        </div>
+        <div class="col s4 offset-s4">
+            <a class="waves-effect waves-light btn orange accent-4" style="width: 100%;" href="{{ doc_root }}define/create.php">Create</a>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <p class="center-align flow-text">...or view/copy a previous one</p>
+        </div>
+        <form method="GET">
+            <div class="input-field col s4 offset-s4">
+                {% if surveys_amount > 0 %}
+                <select id="select_survey" name="survey_id">
+                    <option value="" disabled selected>Select Survey</option>
+                    {% for survey in surveys %}
+                    <option value="{{ survey.id }}">{{ survey.title }}</option>
+                    {% endfor %}
+                </select>
+                <span class="helper-text red-text hide">Please select a survey</span>
+                {% else %}
+                <select disabled>
+                    <option value="" disabled selected>Select Survey</option>
+                </select>
+                <span class="helper-text red-text">No Surveys Available</span>
+                {% endif %}
+            </div>
+            <div class="col offset-s4 s2">
+                <button class="btn waves-effect waves-light left {{ surveys_amount == 0 ? 'disabled' : '' }} orange accent-4" id="copy" type="submit">Copy</button>
+            </div>
+            <div class="col s2">
+                <button class="btn waves-effect waves-light right {{ surveys_amount == 0 ? 'disabled' : '' }} orange accent-4" id="view" type="submit">View</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $('select').formSelect();
+        var valid = true;
+        var form = document.forms.item(0);
+        $('#view').on('click', function(e) {
+            form.action = "{{ doc_root }}define/defined.php";
+            valid = ['', null].includes($('#select_survey').val()) ? false : true;
+            $('.helper-text').toggleClass('hide');
+            if(!valid) {
+                e.preventDefault();
+            }
+        });
+        $('#copy').on('click', function(e) {
+            e.preventDefault();
+            form.action = "{{ doc_root }}define/create.php";
+            valid = ['', null].includes($('#select_survey').val()) ? false : true;
+            $('.helper-text').toggleClass('hide');
+            if(!valid) {
+                e.preventDefault();
+            }
+        });
+    })
+</script>
+{% endblock %}

@@ -1,11 +1,9 @@
 <?php
 declare(strict_types = 1);
-require '../src/bootstrap.php';
-
+require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect('login.php');
+    redirect(DOC_ROOT . "/user/login.php");
 }
-
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $cms->getSession()->id;
     $title = $_POST['title'];
@@ -22,29 +20,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     $cms->getSurvey()->create_questions($survey_id, $questions_array);
-    $questions_id = $cms->getSurvey()->get_questions($survey_id);
+    $questions = $cms->getSurvey()->get_questions($survey_id);
     $answers_array_output = [];
     foreach($answers_array as $answer) {
-        $q_id = $questions_id[$answer[0]-1]['id'];
+        $q_id = $questions[$answer[0]-1]['id'];
         $content = $answer[1];
         array_push($answers_array_output, [$q_id, $content]);
     }
     $cms->getSurvey()->create_answers($answers_array_output);
-    $added_answers = $cms->getSurvey()->get_survey($survey_id);
+    $answers = $cms->getSurvey()->get_answers($survey_id);
     $survey = [];
     $survey['title'] = $title;
-    $survey['questions'] = [];
-    foreach($questions_id as $question) {
-        $res['question'] = $question;
-        $q_id = $question['id'];
-        $answers_for_question = array_filter($added_answers, function($a, $i) use($q_id) {
-            return $a['question_id'] == $q_id;
-        }, ARRAY_FILTER_USE_BOTH);
-        $res['answers'] = $answers_for_question;
-        array_push($survey['questions'], $res);
-    }
-    echo $twig->render('survey_defined.html', $survey);
+    $survey['questions'] = create_question_answer_array($questions, $answers);;
+    echo $twig->render('define/defined.html', $survey);
 } else {
-    echo $twig->render('define_create.html');
+    echo $twig->render('define/create.html');
 }
 ?>

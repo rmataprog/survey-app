@@ -5,15 +5,7 @@ Survey App - Defined
 {% endblock %}
 
 {% block menu %}
-<div class="nav-wrapper deep-purple darken-4">
-    <a class="brand-logo right">SURVEY APP</a>
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="{{ doc_root }}view.php">View</a></li>
-        <li class="active"><a href="{{ doc_root }}define.php">Define</a></li>
-        <li><a href="{{ doc_root }}conduct.php">Conduct</a></li>
-        <li><a href="{{ doc_root }}logout.php">Sign out</a></li>
-    </ul>
-</div>
+{{ include('define/menu.html') }}
 {% endblock %}
 
 {% block content %}
@@ -33,14 +25,14 @@ Survey App - Defined
                 {% endfor %}
             </ul>
         </div>
-        <form action="" method="POST">
-            <div class="col offset-s4 s2">
-                <button class="btn waves-effect waves-light left" name="conduct">Conduct</button>
-            </div>
-            <div class="col s2">
-                <button class="btn waves-effect waves-light right" type="submit" name="edit">Edit</button>
-            </div>
-        </form>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <a class="btn waves-effect waves-light left orange accent-4" href="{{ doc_root }}conduct/start.php?survey_id={{ survey_id }}">Conduct</a>
+        </div>
+        <div class="col s6">
+            <a class="btn waves-effect waves-light right orange accent-4" href="{{ doc_root }}define/create.php?id={{ survey_id }}">Edit</a>
+        </div>
     </div>
 </div>
 {% endblock %}

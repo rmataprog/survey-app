@@ -10,7 +10,7 @@ class Session {
     public function __construct() {
         session_start();
         $this->id = $_SESSION['id'] ?? 0;
-        $this->coordinator = $_SESSION['coordinator'] ?? 0;
+        $this->coordinator = $_SESSION['coordinator'] ?? false;
         $this->logged_in = $_SESSION['logged_in'] ?? false;
     }
 

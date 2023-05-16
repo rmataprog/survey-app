@@ -5,20 +5,12 @@ Survey App - Define Create
 {% endblock %}
 
 {% block menu %}
-<div class="nav-wrapper deep-purple darken-4">
-    <a class="brand-logo right">SURVEY APP</a>
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="{{ doc_root }}view.php">View</a></li>
-        <li class="active"><a href="{{ doc_root }}define.php">Define</a></li>
-        <li><a href="{{ doc_root }}conduct.php">Conduct</a></li>
-        <li><a href="{{ doc_root }}logout.php">Sign out</a></li>
-    </ul>
-</div>
+{{ include('define/menu.html') }}
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <form id="createForm" action="{{ doc_root }}define_create.php" method="POST">
+    <form id="createForm" action="{{ doc_root }}define/create.php" method="POST">
         <div class="section">
             <div class="input-field col s12">
                 <input type="text" class="validate" name="title" placeholder="Survey title" id="title">

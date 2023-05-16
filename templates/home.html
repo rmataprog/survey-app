@@ -8,7 +8,7 @@ Survey App
 <div class="container">
     <div class="row">
         <div class="col s6">
-            <img src="img/online-survey.png" alt="online-survey" class="responsive-img">
+            <img src="{{ doc_root }}img/online-survey.png" alt="online-survey" class="responsive-img">
         </div>
         <div class="col s6">
             <h2>Create your own Surveys</h2>
@@ -20,8 +20,16 @@ Survey App
                 <li class="collection-item">See how many people have submitted their responses</li>
             </ul>
             <div class="row">
-                <div class="col s6"><a class="btn waves-effect waves-light orange accent-4">Register</a></div>
-                <div class="col s6"><a href="login.php" class="btn waves-effect waves-light orange accent-4 right">Login</a></div>
+                <div class="col s6">
+                    <a href="{{ doc_root }}user/register.php" class="btn waves-effect waves-light orange accent-4">
+                        Register
+                    </a>
+                </div>
+                <div class="col s6">
+                    <a href="{{ doc_root }}user/login.php" class="btn waves-effect waves-light orange accent-4 right">
+                        Login
+                    </a>
+                </div>
             </div>
         </div>
     </div>

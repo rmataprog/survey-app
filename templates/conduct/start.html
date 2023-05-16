@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App - Conduct
+{% endblock %}
+
+{% block menu %}
+{{ include('conduct/menu.html') }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="center-align">Conduct Survey</h2>
+    </div>
+    <div class="row">
+        <h3 class="center-align">{{ title }}</h3>
+    </div>
+    <div class="row">
+        <form action="{{ doc_root }}started.php" method="POST">
+            <div class="input-field col s3 offset-s3">
+                <input type="text" class="datepicker" placeholder="start date" name="start_date">
+            </div>
+            <div class="input-field col s3">
+                <input type="text" class="timepicker" placeholder="start time" name="start_time">
+            </div>
+            <div class="col switch offset-s3 s9">
+                <label>
+                    Off
+                    <input type="checkbox" name="start_immediately">
+                    <span class="lever"></span>
+                    On
+                </label>
+                <br />
+                <label>Start immediately</label>
+            </div>
+            <div class="input-field col s3 offset-s3">
+                <input type="text" class="datepicker" placeholder="end date" name="end_date">
+            </div>
+            <div class="input-field col s3">
+                <input type="text" class="timepicker" placeholder="end time" name="end_time">
+            </div>
+            <div>
+                <input type="hidden" name="survey_id" value="{{ id }}">
+            </div>
+            <div class="col offset-s3 s3">
+                <a class="btn waves-effect waves-light left">Back</a>
+            </div>
+            <div class="col s3">
+                <button class="btn waves-effect waves-light right" name="start" id="start">Start</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ doc_root }}js/conduct_start.js"></script>
+{% endblock %}
