@@ -7,7 +7,7 @@ class User {
         $this->db = $db;
     }
 
-    public function register(string $first_name, string $last_name, string $email, int $coordinator, string $password) {
+    public function register(string|null $first_name, string|null $last_name, string $email, bool $coordinator, string $password): int {
         $sql = 'INSERT INTO user_(
             first_name,
             last_name,
@@ -15,7 +15,6 @@ class User {
             coordinator,
             password_
             ) VALUES (:first_name, :last_name, :email, :coordinator, :password)';
-        
         $input = [
             "first_name" => $first_name,
             "last_name" => $last_name,
@@ -23,8 +22,8 @@ class User {
             "coordinator" => $coordinator,
             "password" => $password
         ];
-
-        return $this->db->runSQL($sql, $input);
+        $this->db->runSQL($sql, $input);
+        return $this->db->lastInsertId();
     }
 
     public function verifyEmailExistense(string $email): int {

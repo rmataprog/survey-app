@@ -6,7 +6,7 @@ $data['error']['email']['look'] = 'hide';
 $data['error']['email']['message'] = '';
 
 if($cms->getSession()->logged_in) {
-    redirect('../view/view.php');
+    redirect(DOC_ROOT . 'view/view.php');
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
