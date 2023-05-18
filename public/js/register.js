@@ -7,7 +7,7 @@ $(document).ready(function() {
         var password = document.forms.item(0).password;
         var password_regex = /^[a-zA-Z0-9!#$%&_^]{8,12}$/;
         var confirm = document.forms.item(0).confirm;
-/*
+
         if(email.value == '' || !email_regex.test(email.value)) {
             error_message_adder(0, email, helper_texts, 'Please provide a well formatted email');
             valid = false;
@@ -36,7 +36,7 @@ $(document).ready(function() {
 
         if(!valid) {
             e.preventDefault();
-        }*/
+        }
     });
 
     function error_message_adder(item, element, helper_texts, message) {
