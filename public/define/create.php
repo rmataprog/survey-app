@@ -31,8 +31,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $answers = $cms->getSurvey()->get_answers($survey_id);
     $survey = [];
     $survey['title'] = $title;
-    $survey['questions'] = create_question_answer_array($questions, $answers);;
-    echo $twig->render('define/defined.html', $survey);
+    $survey['questions'] = create_question_answer_array($questions, $answers);
+    redirect(DOC_ROOT . '/define/defined.php', ['survey_id'=>$survey_id]);
 } else {
     echo $twig->render('define/create.html');
 }

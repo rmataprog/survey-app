@@ -7,7 +7,7 @@ class Survey {
         $this->db = $db;
     }
 
-    public function get_surveys_for_id(int $id): array {
+    public function get_surveys_for_id(int $id, int $show = null, int $offset = null): array {
         $sql = "SELECT id,
             title,
             start_date,
@@ -15,6 +15,11 @@ class Survey {
             FROM survey
             WHERE survey.user_id = :id";
         $input = [ "id"=>$id ];
+        if($show !== null && $offset !== null) {
+            $sql .= ' ' . 'LIMIT :show OFFSET :offset';
+            $input['show'] = $show;
+            $input['offset'] = $offset;
+        }
         return $this->db->runSQL($sql, $input)->fetchAll();
     }
 
@@ -26,7 +31,7 @@ class Survey {
         return $this->db->runSQL($sql, $input)->fetchColumn();
     }
 
-    public function get_survey_for_user(int $id, int|string $survey_id): array {
+    public function get_survey_for_user(int $id, int $survey_id): array {
         $sql = "SELECT id,
             title,
             start_date,
@@ -52,7 +57,7 @@ class Survey {
         return $this->db->lastInsertId();
     }
 
-    public function start_survey(int|string $id, string $start_date, string $end_date) {
+    public function start_survey(int $id, string $start_date, string $end_date) {
         $sql = "UPDATE survey
             SET start_date = :start_date,
                 end_date = :end_date
@@ -123,6 +128,16 @@ class Survey {
             "id"=>$id
         ];
         return $this->db->runSQL($sql, $input)->fetchAll();
+    }
+
+    public function get_submissions_count(int $survey_id) {
+        $sql = "SELECT COUNT(*) AS 'submissions'
+            FROM survey_taken
+            WHERE survey_taken.survey_id = :survey_id";
+        $input = [
+            'survey_id'=>$survey_id
+        ];
+        return $this->db->runSQL($sql, $input)->fetchColumn();
     }
 }
 ?>

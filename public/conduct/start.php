@@ -15,6 +15,7 @@ if($is_coordinator && $survey_id) {
         redirect(DOC_ROOT . 'conduct/list.php');
     }
 } else {
-    redirect(DOC_ROOT . 'conduct/list.php');
+    echo 'llego aqui';
+    //redirect(DOC_ROOT . 'conduct/list.php');
 }
 ?>

@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App - Conduct
+{% endblock %}
+
+{% block menu %}
+{{ include('conduct/menu.html') }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="center-align">Conduct Survey</h2>
+    </div>
+    <div class="row">
+        <h3 class="center-align">{{ title }}</h3>
+    </div>
+    <div class="row">
+        <form action="" method="POST">
+            <div class="row">
+                <table class="centered col offset-s3 s6">
+                    <tr>
+                        <td>Start date</td>
+                        <td>{{ start_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>End date</td>
+                        <td>{{ end_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Submissions</td>
+                        <td>{{ submissions }}</td>
+                    </tr>
+                    <tr>
+                        <td>Link</td>
+                        <td>{{ doc_root }}conduct/complete?{{ id }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col s6 offset-s3">
+                    <a class="btn waves-effect waves-light right orange accent-4" style="width:100%" name="start" id="close" href="{{ doc_root }}conduct/close?{{ survey_id }}">close</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

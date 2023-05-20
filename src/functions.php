@@ -19,4 +19,13 @@ function create_question_answer_array(array $questions, array $answers) {
     }
     return $result;
 }
+
+function format_date_time($date, $time, $now) {
+    $date_object = $now ? new DateTime() : date_create_from_format('M d, Y', $date);
+    if(!$now) {
+        $time_array = explode(':', $time);
+        $date_object->setTime($time_array[0], $time_array[1]);
+    }
+    return $date_object->format('Y-m-d H:i:s');
+}
 ?>
