@@ -46,6 +46,19 @@ class Survey {
         return $this->db->runSQL($sql, $input)->fetch();
     }
 
+    public function get_survey(int $id): array {
+        $sql = "SELECT id,
+            title,
+            start_date,
+            end_date
+            FROM survey
+            WHERE survey.id = :id";
+        $input = [
+            "id"=>$id
+        ];
+        return $this->db->runSQL($sql, $input)->fetch();
+    }
+
     public function create_survey(int $id, string $title) {
         $sql = "INSERT INTO survey (title, user_id)
             VALUES (:title, :id)";
