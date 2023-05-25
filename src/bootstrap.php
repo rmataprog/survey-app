@@ -10,6 +10,7 @@ $twig_options['debug'] = DEV;
 $loader = new Twig\Loader\FilesystemLoader([APP_ROOT . '/templates']);
 $twig = new Twig\Environment($loader, $twig_options);
 $twig->addGlobal('doc_root', DOC_ROOT);
+$twig->addExtension(new Twig\Extra\Intl\IntlExtension());
 
 if(DEV === true) {
     $twig->addExtension(new \Twig\Extension\DebugExtension());

@@ -46,7 +46,7 @@ class Survey {
         return $this->db->runSQL($sql, $input)->fetch();
     }
 
-    public function get_survey(int $id): array {
+    public function get_survey(int $id) {
         $sql = "SELECT id,
             title,
             start_date,
@@ -151,6 +151,39 @@ class Survey {
             'survey_id'=>$survey_id
         ];
         return $this->db->runSQL($sql, $input)->fetchColumn();
+    }
+
+    public function take_survey(int $survey_id, int $user_id = 0, $date) {
+        $sql = "INSERT INTO survey_taken(survey_id, " . ($user_id == 0 ? ' ' : 'user_id,') . " date)
+            VALUES (:survey_id, " . ($user_id == 0 ? ' ' : ':user_id,') . " :date)";
+        $formatted_date = $date->format('Y-m-d H:i:s');
+        $input = [
+            'survey_id'=>$survey_id,
+            'date'=>$formatted_date
+        ];
+        if($user_id > 0) {
+            $input['user_id'] = $user_id;
+        }
+        $this->db->runSQL($sql, $input);
+        return $this->db->lastInsertId();
+    }
+
+    public function give_answers(int $survey_taken_id, array $answers, int $amount) {
+        $sql = "INSERT INTO answer_given(survey_taken_id, answer_id)
+            VALUES ";
+        $count = 1;
+        $input = [];
+        foreach ($answers as $question=>$answer) {
+            $sql .= "(:survey_taken_id_$count, :answer_$count)";
+            $input["survey_taken_id_$count"] = $survey_taken_id;
+            $input["answer_$count"] = $answer;
+            if($count < $amount) {
+                $sql .= ', ';
+            }
+            $count += 1;
+        }
+        $this->db->runSQL($sql, $input);
+        return true;
     }
 }
 ?>

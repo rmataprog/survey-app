@@ -24,7 +24,11 @@ Survey App - Conduct
                         <span class="card-title">{{ survey.title }}</span>
                     </div>
                     <div class="card-action right-align">
+                        {% if survey.start_date == null %}
                         <a href="{{ doc_root }}conduct/start.php?survey_id={{ survey.id }}">Start</a>
+                        {% else %}
+                        <span>Started on {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>

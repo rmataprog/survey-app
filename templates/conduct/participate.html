@@ -8,7 +8,7 @@ Survey App - Conduct
 <div class="container">
     <div class="section">
         <div class="row">
-            <h2 class="center-align">{{ title }}<br/><span class="helper-text center" id="helper-top"></span></h2>
+            <h2 class="center-align">{{ survey.title }}<br/><span class="helper-text center" id="helper-top"></span></h2>
         </div>
     </div>
     <div class="section hide">
@@ -19,7 +19,7 @@ Survey App - Conduct
         </div>
     </div>
     <div class="section">
-        <form action="" method="POST">
+        <form action="{{ doc_root }}conduct/participate.php?id={{ survey.id }}" method="POST">
             {% for question in questions %}
             <ol class="collection" start="1">
                 <li class="collection-item">{{ question.question.content }}<br /><span class="helper-text"></span></li>
@@ -35,7 +35,7 @@ Survey App - Conduct
             {% endfor %}
             <div class="row">
                 <div class="col s6 left"><button class="btn">cancel</button></div>
-                <div class="col s6"><button class="btn right" id="submit">submit</button></div>
+                <div class="col s6"><button class="btn right" id="submit" type="submit">submit</button></div>
             </div>
         </form>
     </div>

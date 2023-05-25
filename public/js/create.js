@@ -178,7 +178,6 @@ $(document).ready(function() {
                 toggle_validation_class(input, true);
             }
         });
-
         if(!valid) {
             e.preventDefault();
         }
