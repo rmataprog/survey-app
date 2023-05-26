@@ -2,13 +2,6 @@
 <html>
     <head>
         <style>
-            :root {
-                --main: #27187e;
-                --secondary: #758bfd;
-                --terciary: #aeb8fe;
-                --quaternary: #f1f2f6;
-                --accent: #ff8600;
-            }
             body {
                 min-height: 100vh;
                 display: flex;
@@ -23,30 +16,38 @@
                 margin-right: auto;
             }
         </style>
-        <title>{% block title %}{% endblock %}</title>
+        <title>View Page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
         <header>
             <nav>
-                {% block menu %}
-                <div class="nav-wrapper deep-purple darken-4">
-                    <a class="brand-logo center" href="{{doc_root}}home.php">SURVEY APP</a>
+                <div class="nav-wrapper">
+                    <a class="brand-logo right">Logo</a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li><a>View</a></li>
+                        <li><a>Define</a></li>
+                        <li class="active"><a>Conduct</a></li>
+                    </ul>
                 </div>
-                {% endblock %}
             </nav>
         </header>
         <main>
-            {% block content %}{% endblock %}
+            <div class="container">
+                <div class="row">
+                    <h2 class="center-align">Thanks for participating</h2>
+                </div>
+                <div class="row">
+                    <img class="responsive-img logo" src="../../public/img/checked.png">
+                </div>
+            </div>
         </main>
-        <footer class="page-footer indigo lighten-2">
-            <div class="footer-copyright deep-purple darken-4">
-                <div class="container center-align">© {{ 'now'|date('Y') }} Survey App</div>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container center-align">© 2023 Survey App</div>
             </div>
         </footer>
         <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        {% block script %}{% endblock %}
     </body>
 </html>

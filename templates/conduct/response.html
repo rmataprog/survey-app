@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App - Conduct
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="center-align">{{ message }}</h2>
+    </div>
+    <div class="row">
+        {% if success %}
+        <img class="responsive-img logo" src="{{ doc_root }}img/checked.png">
+        {% else %}
+        <img class="responsive-img logo" src="{{ doc_root }}img/schedule.png">
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

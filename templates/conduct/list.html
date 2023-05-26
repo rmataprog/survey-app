@@ -27,7 +27,14 @@ Survey App - Conduct
                         {% if survey.start_date == null %}
                         <a href="{{ doc_root }}conduct/start.php?survey_id={{ survey.id }}">Start</a>
                         {% else %}
-                        <span>Started on {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</span>
+                        <span>
+                            {% if date() > date(survey.start_date) %}Started{% endif %}
+                            {% if date() < date(survey.start_date) %}Will start{% endif %} 
+                            on {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
+                            - {% if date() < date(survey.end_date) %}Will end{% endif %}
+                            {% if date() > date(survey.end_date) %}Ended{% endif %}
+                            on {{ survey.end_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
+                        </span>
                         {% endif %}
                     </div>
                 </div>

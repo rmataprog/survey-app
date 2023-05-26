@@ -22,11 +22,11 @@ Survey App - Conduct
                 <table class="centered col offset-s3 s6">
                     <tr>
                         <td>Start date</td>
-                        <td>{{ start_date }}</td>
+                        <td>{{ start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</td>
                     </tr>
                     <tr>
                         <td>End date</td>
-                        <td>{{ end_date }}</td>
+                        <td>{{ end_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</td>
                     </tr>
                     <tr>
                         <td>Submissions</td>
@@ -34,7 +34,7 @@ Survey App - Conduct
                     </tr>
                     <tr>
                         <td>Link</td>
-                        <td>{{ doc_root }}conduct/complete?{{ id }}</td>
+                        <td><a href="{{ doc_root }}conduct/participate.php?id={{ id }}">{{ doc_root }}conduct/participate.php?id={{ id }}</a></td>
                     </tr>
                 </table>
             </div>
