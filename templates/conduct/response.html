@@ -10,10 +10,12 @@ Survey App - Conduct
         <h2 class="center-align">{{ message }}</h2>
     </div>
     <div class="row">
-        {% if success %}
+        {% if type == 1 %}
         <img class="responsive-img logo" src="{{ doc_root }}img/checked.png">
-        {% else %}
+        {% elseif type == 2 %}
         <img class="responsive-img logo" src="{{ doc_root }}img/schedule.png">
+        {% else %}
+        <img class="responsive-img logo" src="{{ doc_root }}img/archive.png">
         {% endif %}
     </div>
 </div>

@@ -26,9 +26,14 @@ $(document).ready(function() {
     $('#start').on('click', function(e) {
         var valid = true;
         var start_immediately = $('input[type="checkbox"]')[0].checked;
+        var start_time_span = time_elems.item(0).nextElementSibling;
+        var end_time_span = time_elems.item(1).nextElementSibling;
+        var start_date_span = datepicker_elems.item(0).nextElementSibling;
+        var end_date_span = datepicker_elems.item(1).nextElementSibling;
         if((start_timepicker.time == undefined) && !start_immediately) {
             valid = false;
-            console.log('you must select a start time');
+            time_elems.item(0).classList.add('invalid');
+            start_time_span.setAttribute('data-error', 'you must select a start time');
         } else {
             if(!start_immediately) {
                 var start_date = new Date(start_datepicker.date);
@@ -37,13 +42,15 @@ $(document).ready(function() {
                 start_date.setMinutes(start_time[1]);
                 if(new Date() > start_date) {
                     valid = false;
-                    console.log('start time and date must be in the future');
+                    datepicker_elems.item(0).classList.add('invalid');
+                    start_date_span.setAttribute('data-error', 'start time and date must be in the future');
                 }
             }
         }
         if(end_timepicker.time == undefined) {
             valid = false;
-            console.log('you must select an end time');
+            time_elems.item(1).classList.add('invalid');
+            end_time_span.setAttribute('data-error', 'you must select an end time');
         } else {
             var end_date = new Date(end_datepicker.date);
             var end_time = end_timepicker.time.split(':');
@@ -51,11 +58,13 @@ $(document).ready(function() {
             end_date.setMinutes(end_time[1]);
             if(new Date() > end_date) {
                 valid = false;
-                console.log('end time and date must be in the future');
+                datepicker_elems.item(1).classList.add('invalid');
+                end_date_span.setAttribute('data-error', 'end time and date must be in the future');
             } else {
                 if(!start_immediately && start_date > end_date) {
                     valid = false;
-                    console.log('end time and date must be later than the start date and time');
+                    datepicker_elems.item(1).classList.add('invalid');
+                    end_date_span.setAttribute('data-error', 'end time and date must be later than the start date and time');
                 }
             }
         }

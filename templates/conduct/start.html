@@ -19,10 +19,12 @@ Survey App - Conduct
     <div class="row">
         <form action="{{ doc_root }}conduct/started.php" method="POST">
             <div class="input-field col s3 offset-s3">
-                <input type="text" class="datepicker" placeholder="start date" name="start_date">
+                <input type="text" class="datepicker validate" placeholder="start date" name="start_date">
+                <span class="helper-text" data-error=""></span>
             </div>
             <div class="input-field col s3">
-                <input type="text" class="timepicker" placeholder="start time" name="start_time">
+                <input type="text" class="timepicker validate" placeholder="start time" name="start_time">
+                <span class="helper-text" data-error=""></span>
             </div>
             <div class="col switch offset-s3 s9">
                 <label>
@@ -35,10 +37,12 @@ Survey App - Conduct
                 <label>Start immediately</label>
             </div>
             <div class="input-field col s3 offset-s3">
-                <input type="text" class="datepicker" placeholder="end date" name="end_date">
+                <input type="text" class="datepicker validate" placeholder="end date" name="end_date">
+                <span class="helper-text" data-error=""></span>
             </div>
             <div class="input-field col s3">
-                <input type="text" class="timepicker" placeholder="end time" name="end_time">
+                <input type="text" class="timepicker validate" placeholder="end time" name="end_time">
+                <span class="helper-text" data-error=""></span>
             </div>
             <div>
                 <input type="hidden" name="survey_id" value="{{ id }}">

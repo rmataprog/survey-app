@@ -102,7 +102,7 @@ class Survey {
         $this->db->runSQL($sql, $input);
     }
 
-    public function get_questions(int|string $id) {
+    public function get_questions(int $id) {
         $sql = "SELECT *
             FROM question
             WHERE question.survey_id = :id";
@@ -131,7 +131,7 @@ class Survey {
         $this->db->runSQL($sql, $input);
     }
 
-    public function get_answers(int|string $id) {
+    public function get_answers(int $id) {
         $sql = "SELECT a.*
             FROM survey AS s
             INNER JOIN question AS q ON q.survey_id = s.id
@@ -184,6 +184,76 @@ class Survey {
         }
         $this->db->runSQL($sql, $input);
         return true;
+    }
+
+    public function check_survey_taken(int $survey_id, int $user_id) {
+        $sql = "SELECT COUNT(*) as took_survey
+            FROM survey_taken
+            WHERE survey_taken.survey_id = :survey_id AND survey_taken.user_id = :user_id";
+        $input = [
+            'survey_id' => $survey_id,
+            'user_id' => $user_id
+        ];
+        return $this->db->runSQL($sql, $input)->fetchColumn();
+    }
+
+    public function get_survey_list_submissions(int $user_id) {
+        $sql = "SELECT st.survey_id,
+                s.title,
+                s.start_date,
+                s.end_date,
+                count(*) AS submissions
+                FROM survey_taken AS st
+                INNER JOIN survey AS s ON s.id = st.survey_id
+                where s.user_id = :user_id_1
+                GROUP BY st.survey_id
+                UNION
+                SELECT s.id,
+                s.title,
+                s.start_date,
+                s.end_date,
+                0
+                FROM survey AS s
+                WHERE s.start_date IS NOT NULL
+                    AND s.user_id = :user_id_2
+                    AND s.id NOT IN (
+                        SELECT st.survey_id
+                        FROM survey_taken AS st
+                        GROUP BY st.survey_id
+                        )";
+        $input = [
+            'user_id_1' => $user_id,
+            'user_id_2' => $user_id
+        ];
+        return $this->db->runSQL($sql, $input)->fetchAll();
+    }
+
+    public function get_survey_results(int $survey_id) {
+        $sql = "SELECT q.id AS question_id, ag.answer_id, a.content, COUNT(*) AS total
+                FROM answer_given AS ag
+                LEFT JOIN survey_taken AS st ON st.id = ag.survey_taken_id
+                LEFT JOIN answer AS a ON a.id = ag.answer_id
+                LEFT JOIN question AS q ON q.id = a.question_id
+                WHERE st.survey_id = :survey_id_1
+                GROUP BY q.id, ag.answer_id
+                UNION
+                SELECT a.question_id, a.id, a.content, 0
+                FROM answer AS a
+                LEFT JOIN question AS q ON q.id = a.question_id
+                LEFT JOIN survey AS s ON s.id = q.survey_id
+                WHERE s.id = :survey_id_2 AND a.id NOT IN (
+                    SELECT ag.answer_id
+                    FROM answer_given AS ag
+                    LEFT JOIN survey_taken AS st ON st.id = ag.survey_taken_id
+                    LEFT JOIN answer AS a ON a.id = ag.answer_id
+                    LEFT JOIN question AS q ON q.id = a.question_id
+                    GROUP BY ag.answer_id
+                    )";
+        $input = [
+            'survey_id_1' => $survey_id,
+            'survey_id_2' => $survey_id
+        ];
+        return $this->db->runSQL($sql, $input)->fetchAll();
     }
 }
 ?>
