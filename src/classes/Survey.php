@@ -70,6 +70,17 @@ class Survey {
         return $this->db->lastInsertId();
     }
 
+    public function update_survey(int $id, string $title) {
+        $sql = "UPDATE survey
+            SET title = :title
+            WHERE survey.id = :id";
+        $input = [
+            "title"=>$title,
+            "id"=>$id
+        ];
+        $this->db->runSQL($sql, $input);
+    }
+
     public function start_survey(int $id, string $start_date, string $end_date) {
         $sql = "UPDATE survey
             SET start_date = :start_date,
@@ -254,6 +265,16 @@ class Survey {
             'survey_id_2' => $survey_id
         ];
         return $this->db->runSQL($sql, $input)->fetchAll();
+    }
+
+    public function delete_questions(int $survey_id) {
+        $sql = "DELETE FROM question
+                WHERE question.survey_id = :survey_id";
+        $input = [
+            'survey_id' => $survey_id
+        ];
+        $this->db->runSQL($sql, $input);
+        return true;
     }
 }
 ?>

@@ -17,6 +17,7 @@ if($is_coordinator) {
     $data["surveys"] = $surveys;
     $data["total"] = $surveys_count;
     $data["current"] = floor($offset / 3);
+    $data["path"] = 'conduct/list.php';
     echo $twig->render("conduct/list.html", $data);
 } else {
     redirect(DOC_ROOT . 'view/view.php');

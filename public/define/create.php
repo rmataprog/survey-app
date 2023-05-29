@@ -7,7 +7,14 @@ if(!$cms->getSession()->logged_in) {
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $cms->getSession()->id;
     $title = $_POST['title'];
-    $survey_id = $cms->getSurvey()->create_survey($id, $title);
+    $edit = isset($_POST['edit']) ? true : false;
+    if($edit) {
+        $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
+        $cms->getSurvey()->update_survey($survey_id, $title);
+        $deleted = $cms->getSurvey()->delete_questions($survey_id);
+    } else {
+        $survey_id = $cms->getSurvey()->create_survey($id, $title);
+    }
     $questions_array = [];
     $answers_array = [];
     foreach ($_POST as $item => $value) {

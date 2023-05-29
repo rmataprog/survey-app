@@ -49,33 +49,35 @@ Survey App - Define
                 <button class="btn waves-effect waves-light right {{ surveys_amount == 0 ? 'disabled' : '' }} orange accent-4" id="view" type="submit">View</button>
             </div>
         </form>
+        <div id="data" data-root="{{ doc_root }}"></div>
     </div>
 </div>
 {% endblock %}
 
 {% block script %}
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
-        $('select').formSelect();
-        var valid = true;
-        var form = document.forms.item(0);
-        $('#view').on('click', function(e) {
-            form.action = "{{ doc_root }}define/defined.php";
-            valid = ['', null].includes($('#select_survey').val()) ? false : true;
+    $('select').formSelect();
+    var valid = true;
+    var form = document.forms.item(0);
+    var doc_root = document.getElementById('data').dataset.root;
+    $('#view').on('click', function(e) {
+        form.action = `${doc_root}define/defined.php`;
+        valid = ['', null].includes($('#select_survey').val()) ? false : true;
+        if(!valid) {
             $('.helper-text').toggleClass('hide');
-            if(!valid) {
-                e.preventDefault();
-            }
-        });
-        $('#copy').on('click', function(e) {
             e.preventDefault();
-            form.action = "{{ doc_root }}define/create.php";
-            valid = ['', null].includes($('#select_survey').val()) ? false : true;
-            $('.helper-text').toggleClass('hide');
-            if(!valid) {
-                e.preventDefault();
-            }
-        });
-    })
+        }
+    });
+    $('#copy').on('click', function(e) {
+        e.preventDefault();
+        form.action = "{{ doc_root }}define/create.php";
+        valid = ['', null].includes($('#select_survey').val()) ? false : true;
+        $('.helper-text').toggleClass('hide');
+        if(!valid) {
+            e.preventDefault();
+        }
+    });
+})
 </script>
 {% endblock %}
