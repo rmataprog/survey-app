@@ -94,7 +94,7 @@ class Survey {
         $this->db->runSQL($sql, $input);
     }
 
-    public function create_questions(int|string $id, array $questions) {
+    public function create_questions(int $id, array $questions) {
         $sql = "INSERT INTO question (survey_id, content)
             VALUES ";
         $counter = 1;
@@ -275,6 +275,39 @@ class Survey {
         ];
         $this->db->runSQL($sql, $input);
         return true;
+    }
+
+    public function get_latest_surveys_to_respond($show, $offset, $dateTime): array {
+        $sql = "SELECT id,
+                title,
+                start_date,
+                end_date
+                FROM survey
+                WHERE start_date IS NOT null
+                    AND end_date > :now_1
+                    AND start_date <= :now_2
+                ORDER BY start_date desc
+                LIMIT :show OFFSET :offset";
+        $input = [
+            "now_1"=>$dateTime,
+            "now_2"=>$dateTime,
+            'show'=>$show,
+            'offset'=>$offset
+        ];
+        return $this->db->runSQL($sql, $input)->fetchAll();
+    }
+
+    public function get_active_surveys_count($dateTime): int {
+        $sql = "SELECT COUNT(*)
+                FROM survey
+                WHERE start_date IS NOT NULL
+                    AND end_date > :now_1
+                    AND start_date <= :now_2";
+        $input = [
+            "now_1"=>$dateTime,
+            "now_2"=>$dateTime
+        ];
+        return $this->db->runSQL($sql, $input)->fetchColumn();
     }
 }
 ?>

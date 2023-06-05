@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
                     'type' => 0,
                     'message' => 'It seems that you already took this survey'
                 ];
-                echo $twig->render('conduct/response.html', $data);
+                echo $twig->render('helpers/response.html', $data);
             } else {
                 if($survey['start_date']) {
                     $start_date = new DateTime($survey['start_date']);
@@ -41,14 +41,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
                             'type' => 2,
                             'message' => $message
                         ];
-                        echo $twig->render('conduct/response.html', $data);
+                        echo $twig->render('helpers/response.html', $data);
                     }
                 } else {
                     $data = [
                         'type' => 2,
                         'message' => 'Survey has not started'
                     ];
-                    echo $twig->render('conduct/response.html', $data);
+                    echo $twig->render('helpers/response.html', $data);
                 }
             }
         } else {
@@ -70,7 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         'message' => 'Thanks for participating'
     ];
     if($valid) {
-        echo $twig->render('conduct/response.html', $data);
+        echo $twig->render('helpers/response.html', $data);
     }
 }
 ?>

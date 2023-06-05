@@ -15,5 +15,6 @@ $data['surveys'] = array_slice($surveys, $offset, 3);
 $data['total'] = count($surveys);
 $data['path'] = 'view/view.php';
 $data["current"] = floor($offset / 3);
+$data['coordinator'] = $_SESSION['coordinator'];
 echo $twig->render('view/view.html', $data);
 ?>

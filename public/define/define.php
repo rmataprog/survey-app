@@ -10,5 +10,6 @@ $data['surveys_amount'] = $surveys_amount;
 if($surveys_amount > 0) {
     $data['surveys'] = $cms->getSurvey()->get_surveys_for_id($id, null, null);
 }
+$data['coordinator'] = $_SESSION['coordinator'];
 echo $twig->render('define/define.html', $data);
 ?>

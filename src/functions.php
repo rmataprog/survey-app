@@ -28,4 +28,11 @@ function format_date_time($date, $time, $now) {
     }
     return $date_object->format('Y-m-d H:i:s');
 }
+
+function get_expiration_date() {
+    $expiry = new DateTime();
+    $interval = new DateInterval('PT30M');
+    $expiry->add($interval);
+    return $expiry->format('Y-m-d H:i:s');
+}
 ?>

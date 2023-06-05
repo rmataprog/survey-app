@@ -18,7 +18,7 @@ if(DEV === true) {
     /*code to handle errors */
 }
 
-$cms = new \Survey\CMS($dsn, $username, $password);
+$cms = new \Survey\CMS($dsn, $username, $password, $email_config);
 $cms->getSession();
 unset($dsn, $username, $password);
 ?>

@@ -17,6 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
     $questions_answer = create_question_answer_array($questions, $answers);
     $data['survey'] = $survey;
     $data['questions'] = $questions_answer;
+    $data['coordinator'] = $_SESSION['coordinator'];
     echo $twig->render('define/edit.html', $data);
 }
 ?>

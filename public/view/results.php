@@ -19,6 +19,7 @@ $data['results'] = array_map(function($q) use ($results) {
     };
     return $r;
 }, $questions);
+$data['coordinator'] = $_SESSION['coordinator'];
 
 echo $twig->render('view/results.html', $data);
 ?>

@@ -17,6 +17,7 @@ if($is_coordinator && $survey_id) {
         $data['survey_id'] = $survey['id'];
         $data['questions'] = create_question_answer_array($questions, $answers);
         $data['started'] = $survey['start_date'] == null ? false : true;
+        $data['coordinator'] = $_SESSION['coordinator'];
         echo $twig->render('define/defined.html', $data);
     } else {
         redirect(DOC_ROOT . '/define/define.php');

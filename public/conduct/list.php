@@ -18,8 +18,17 @@ if($is_coordinator) {
     $data["total"] = $surveys_count;
     $data["current"] = floor($offset / 3);
     $data["path"] = 'conduct/list.php';
+    $data['coordinator'] = $_SESSION['coordinator'];
     echo $twig->render("conduct/list.html", $data);
 } else {
-    redirect(DOC_ROOT . 'view/view.php');
+    $now = new DateTime();
+    $surveys_count = $cms->getSurvey()->get_active_surveys_count($now->format('Y-m-d H:i:s'));
+    $surveys = $cms->getSurvey()->get_latest_surveys_to_respond($show, $offset, $now->format('Y-m-d H:i:s'));
+    $data["surveys"] = $surveys;
+    $data["total"] = $surveys_count;
+    $data["current"] = floor($offset / 3);
+    $data["path"] = 'conduct/list.php';
+    $data['coordinator'] = $_SESSION['coordinator'];
+    echo $twig->render("conduct/list.html", $data);
 }
 ?>

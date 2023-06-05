@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cms->getSurvey()->update_survey($survey_id, $title);
         $deleted = $cms->getSurvey()->delete_questions($survey_id);
     } else {
-        $survey_id = $cms->getSurvey()->create_survey($id, $title);
+        $survey_id = intval($cms->getSurvey()->create_survey($id, $title));
     }
     $questions_array = [];
     $answers_array = [];
@@ -41,6 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $survey['questions'] = create_question_answer_array($questions, $answers);
     redirect(DOC_ROOT . '/define/defined.php', ['survey_id'=>$survey_id]);
 } else {
-    echo $twig->render('define/create.html');
+    $data['coordinator'] = $_SESSION['coordinator'];
+    echo $twig->render('define/create.html', $data);
 }
 ?>

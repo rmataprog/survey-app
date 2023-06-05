@@ -37,6 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
                 $submissions = $cms->getSurvey()->get_submissions_count($survey_id);
                 $survey['submissions'] = $submissions;
+                $survey['coordinator'] = $_SESSION['coordinator'];
                 echo $twig->render("conduct/summary.html", $survey);
             } else {
                 redirect(DOC_ROOT . 'conduct/list.php');

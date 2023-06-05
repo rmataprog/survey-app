@@ -3,7 +3,8 @@
         "twig/twig": "^3.6",
         "ezyang/htmlpurifier": "^4.16",
         "twig/intl-extra": "^3.6",
-        "twig/extra-bundle": "^3.6"
+        "twig/extra-bundle": "^3.6",
+        "phpmailer/phpmailer": "^6.8"
     },
     "autoload": {
         "psr-4": {
