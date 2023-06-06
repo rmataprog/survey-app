@@ -8,10 +8,9 @@ $user_id = $_SESSION['id'] ?? 0;
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
     if($survey_id) {
         $survey = $cms->getSurvey()->get_survey($survey_id);
-        $took_survey = $cms->getSurvey()->check_survey_taken($survey_id, $user_id);
         if($survey) {
             $took_survey = $cms->getSurvey()->check_survey_taken($survey_id, $user_id);
-            if($took_survey == 1) {
+            if($took_survey > 0) {
                 $data = [
                     'type' => 0,
                     'message' => 'It seems that you already took this survey'

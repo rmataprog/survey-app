@@ -239,6 +239,24 @@ class Survey {
         return $this->db->runSQL($sql, $input)->fetchAll();
     }
 
+    public function get_survey_list_submissions_for_respondant(int $user_id) {
+        $sql = "SELECT st.survey_id,
+                s.title,
+                s.start_date,
+                s.end_date,
+                count(*) AS submissions
+                FROM survey_taken AS st
+                INNER JOIN survey AS s ON s.id = st.survey_id
+                WHERE s.id IN (SELECT survey_taken.survey_id
+                    FROM survey_taken
+                    WHERE survey_taken.user_id = :user_id)
+                GROUP BY st.survey_id";
+        $input = [
+            'user_id' => $user_id
+        ];
+        return $this->db->runSQL($sql, $input)->fetchAll();
+    }
+
     public function get_survey_results(int $survey_id) {
         $sql = "SELECT q.id AS question_id, ag.answer_id, a.content, COUNT(*) AS total
                 FROM answer_given AS ag
