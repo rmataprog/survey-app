@@ -41,13 +41,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $hash = password_hash($data['password'], PASSWORD_DEFAULT);
             $id = $cms->getUser()->register(!$data['first_name'] ? null : $data['first_name'], !$data['last_name'] ? null : $data['last_name'], $data['email'], $data['coordinator'], $hash);
             $cms->getSession()->start(['id'=>$id, 'coordinator'=>$data['coordinator']]);
-            $expiry = new DateTime();
-            $interval = new DateInterval('PT30M');
-            $expiry->add($interval);
-            $expiry_date = $expiry->format('Y-m-d H:i:s');
+            $expiry_date = get_expiration_date();
             $token = $cms->getUser()->createToken($id, 'confirm email', $expiry_date);
             $link = DOMAIN . DOC_ROOT . 'user/confirm.php?token=' . $token;
-            $body = "<p>Please click this <a href='$link' target='_blank'>link</a> to confirm your account.</p>";
+            $body = $cms->getUser()->CreateEmailTemplate(1, $link);
             $message = [
                 'subject'=> 'Survey App: please confirm your email',
                 'body'=> $body,

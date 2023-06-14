@@ -80,8 +80,15 @@ class User {
     }
 
     public function getTokenData(string $token) {
-        $sql = "SELECT *
+        $sql = "SELECT 
+            token.token,
+            token.expiry,
+            token.purpose,
+            token.user_id,
+            user_.email,
+            user_.coordinator
             FROM token
+            INNER JOIN user_ ON user_.id = token.user_id
             WHERE token.token = :token";
         $input = [
             'token'=>$token
@@ -110,6 +117,18 @@ class User {
         ];
         $this->db->runSQL($sql, $input);
         return true;
+    }
+
+    public function CreateEmailTemplate(int $type, string $url) {
+        $sql = "SELECT *
+                FROM email_templates
+                WHERE email_templates.type_ = :type";
+        $input = [
+            'type'=>$type
+        ];
+        $templates = $this->db->runSQL($sql, $input)->fetchAll();
+        $result = $templates[0]['template'] . $url . $templates[1]['template'];
+        return $result;
     }
 }
 ?>

@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_data = $cms->getUser()->getUser($email);
     $token = $cms->getUser()->createToken($user_data['id'], 'forgot password', $expiry_date);
     $link = DOMAIN . DOC_ROOT . 'user/reset_password.php?token=' . $token;
-    $body = "<p>Please click this <a href='$link' target='_blank'>link</a> to reset your password.</p>";
+    $body = $cms->getUser()->CreateEmailTemplate(2, $link);
     $email_config = [
         'subject'=>'Survey App: this is your password reset link',
         'body'=>$body,

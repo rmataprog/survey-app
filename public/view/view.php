@@ -6,11 +6,12 @@ if(!$cms->getSession()->logged_in) {
 }
 $user_id = $_SESSION['id'];
 
-$offset = $_GET['offset'] ?? 0;
+$error = $_GET['error'] ?? '';
+
 $options = [
     'default' => 0
 ];
-$offset = filter_var($offset, FILTER_VALIDATE_INT, $options);
+$offset = filter_input(INPUT_GET, 'offset', FILTER_VALIDATE_INT) ? intval($_GET['offset']) : 0;
 
 if($_SESSION['coordinator'] == 1) {
     $surveys = $cms->getSurvey()->get_survey_list_submissions($user_id);
@@ -23,5 +24,8 @@ $data['total'] = count($surveys);
 $data['path'] = 'view/view.php';
 $data["current"] = floor($offset / 3);
 $data['coordinator'] = $_SESSION['coordinator'];
+if($error) {
+    $data['error'] = $error;
+}
 echo $twig->render('view/view.html', $data);
 ?>

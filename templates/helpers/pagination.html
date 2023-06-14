@@ -2,7 +2,7 @@
     <div class="section center-align">
         <ul class="pagination">
             <li class="{% if current == 0 %}disabled{% else %}waves-effect{% endif %}">
-                <a href="{{ doc_root }}{{ path }}?show=3&offset={{ (current - 1) * 3 }}">
+                <a href="{{ doc_root }}{{ path }}?offset={{ (current - 1) * 3 }}">
                     <i class="material-icons">chevron_left</i>
                 </a>
             </li>
@@ -10,11 +10,11 @@
                 {% if current == i %}
                 <li class="active"><a>{{ i + 1 }}</a></li>
                 {% else %}
-                <li class="waves-effect"><a href="{{ doc_root }}{{ path }}?show=3&offset={{ i * 3 }}">{{ i + 1 }}</a></li>
+                <li class="waves-effect"><a href="{{ doc_root }}{{ path }}?offset={{ i * 3 }}">{{ i + 1 }}</a></li>
                 {% endif %}
             {% endfor %}
             <li class='{% if current == (total/3)|round(0, "ceil") - 1 %}disabled{% else %}waves-effect{% endif %}'>
-                <a href="{{ doc_root }}{{ path }}?show=3&offset={{ (current + 1) * 3 }}">
+                <a href="{{ doc_root }}{{ path }}?offset={{ (current + 1) * 3 }}">
                     <i class="material-icons">chevron_right</i>
                 </a>
             </li>
