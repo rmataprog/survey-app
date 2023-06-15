@@ -13,28 +13,49 @@ Survey App - Define Create
     <form id="createForm" action="{{ doc_root }}define/create.php" method="POST">
         <div class="section">
             <div class="input-field col s12">
-                <input type="text" class="validate" name="title" placeholder="Survey title" id="title">
-                <span class="helper-text"></span>
+                <input type="text" class="validate {{ invalid ? 'invalid' : 'valid'}}" name="title" placeholder="Survey title" id="title" value="{{ invalid ? title.content : ''}}">
+                <span class="helper-text" data-error="{{ title.error }}"></span>
             </div>
         </div>
         <div class="divider"></div>
         <div class="section" id="questions_list">
-            <ol class="questions">
-                <li>
-                    <input type="text" class="validate" name="q-1">
-                    <span class="helper-text"></span>
-                </li>
-                <ol style="list-style-type: lower-latin;" class="answers">
+            {% if invalid %}
+                {% for question in questions %}
+                <ol class="questions">
+                    {% set index = loop.index %}
+                    {% set map = { 1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e' } %}
                     <li>
-                        <input type="text" class="validate" name="q-1-a">
+                        <input type="text" class="validate" name="q-{{ index }}" value="{{ question.question.content }}">
                         <span class="helper-text"></span>
                     </li>
-                    <li>
-                        <input type="text" class="validate" name="q-1-b">
-                        <span class="helper-text"></span>
-                    </li>
+                    <ol style="list-style-type: lower-latin;" class="answers">
+                        {% for answer in question.answers %}
+                        <li>
+                            <input type="text" class="validate" name="q-{{ index }}-{{ map[loop.index] }}" value="{{ answer.content }}">
+                            <span class="helper-text"></span>
+                        </li>
+                        {% endfor %}
+                    </ol>
                 </ol>
-            </ol>
+                {% endfor %}
+            {% else %}
+                <ol class="questions">
+                    <li>
+                        <input type="text" class="validate" name="q-1">
+                        <span class="helper-text"></span>
+                    </li>
+                    <ol style="list-style-type: lower-latin;" class="answers">
+                        <li>
+                            <input type="text" class="validate" name="q-1-a">
+                            <span class="helper-text"></span>
+                        </li>
+                        <li>
+                            <input type="text" class="validate" name="q-1-b">
+                            <span class="helper-text"></span>
+                        </li>
+                    </ol>
+                </ol>
+            {% endif %}
             <div class="row">
                 <div class="col s12">
                     <button class="right waves-effect waves-light btn-small orange accent-4" id="add_option">add option</button>
@@ -65,5 +86,5 @@ Survey App - Define Create
 {% endblock %}
 
 {% block script %}
-<script src="{{ doc_root }}js/create.js"></script>
+<!--script src="{{ doc_root }}js/create.js"></script-->
 {% endblock %}

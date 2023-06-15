@@ -12,11 +12,16 @@ if($token) {
         $confirmed = $cms->getUser()->confirmUser($data['user_id']);
         $data['message'] = 'Thanks for your subscription. Your email was confirmed.';
         $data['type'] = 4;
+        $cms->getSession()->start(['id'=>$data['user_id'], 'coordinator'=>$data['coordinator']]);
         echo $twig->render('helpers/response.html', $data);
     } else {
         $data['message'] = 'This link has expired, you need to request another confirmation link.';
         $data['type'] = 5;
+        $cms->getSession()->delete();
         echo $twig->render('helpers/response.html', $data);
     }
+} else {
+    $cms->getSession()->delete();
+    redirect(DOC_ROOT . 'notFound.php');
 }
 ?>
