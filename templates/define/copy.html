@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Survey App - Define Edit
+{% endblock %}
+
+{% block menu %}
+{{ include('define/menu.html') }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form id="createForm" action="{{ doc_root }}define/create.php" method="POST">
+        <div class="section">
+            <div class="input-field col s12">
+                <input type="text" class="validate" name="title" placeholder="Survey title" id="title" value="{{ survey.title }}">
+                <span class="helper-text"></span>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section" id="questions_list">
+            {% set map = { 1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e' } %}
+            {% for question in questions %}
+            <ol class="questions">
+                {% set index = loop.index %}
+                <li>
+                    <input type="text" class="validate" name="q-{{ index }}" value="{{ question.question.content }}">
+                    <span class="helper-text"></span>
+                </li>
+                <ol style="list-style-type: lower-latin;" class="answers">
+                    {% for answer in question.answers %}
+                    <li>
+                        <input type="text" class="validate" name="q-{{ index }}-{{ map[loop.index] }}" value="{{ answer.content }}">
+                        <span class="helper-text"></span>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </ol>
+            {% endfor %}
+            <div class="row">
+                <div class="col s12">
+                    <button class="right waves-effect waves-light btn-small orange accent-4" id="add_option">add option</button>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <button class="right waves-effect waves-light btn-small orange accent-4" id="add_question">add question</button>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <div class="row">
+                <div class="col s6">
+                    <a class="waves-effect waves-light btn-small orange accent-4" href="{{ doc_root }}define/define.php">Cancel</a>
+                </div>
+                <div class="col s6">
+                    <button class="right waves-effect waves-light btn-small orange accent-4" type="submit" id="save">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ doc_root }}js/create.js"></script>
+{% endblock %}

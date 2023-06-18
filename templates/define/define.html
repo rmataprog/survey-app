@@ -55,29 +55,5 @@ Survey App - Define
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-    $(document).ready(function() {
-    $('select').formSelect();
-    var valid = true;
-    var form = document.forms.item(0);
-    var doc_root = document.getElementById('data').dataset.root;
-    $('#view').on('click', function(e) {
-        form.action = `${doc_root}define/defined.php`;
-        valid = ['', null].includes($('#select_survey').val()) ? false : true;
-        if(!valid) {
-            $('.helper-text').toggleClass('hide');
-            e.preventDefault();
-        }
-    });
-    $('#copy').on('click', function(e) {
-        e.preventDefault();
-        form.action = "{{ doc_root }}define/create.php";
-        valid = ['', null].includes($('#select_survey').val()) ? false : true;
-        $('.helper-text').toggleClass('hide');
-        if(!valid) {
-            e.preventDefault();
-        }
-    });
-})
-</script>
+<script type="text/javascript" src="{{ doc_root }}js/define.js"></script>
 {% endblock %}

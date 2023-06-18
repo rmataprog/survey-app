@@ -135,7 +135,7 @@ $(document).ready(function() {
     });
 
     $('#save').on('click', function(e) {
-        var regex = /^[A-z0-9\s¿?]+$/;
+        var regex = /^[A-z0-9\s¿?-]+$/;
         var valid = true;
         var title = document.getElementById('title');
         if(!regex.test(title.value) || title.value == '') {

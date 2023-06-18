@@ -20,19 +20,21 @@ Survey App - Define Create
         <div class="divider"></div>
         <div class="section" id="questions_list">
             {% if invalid %}
+                {% set map = { 1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e' } %}
                 {% for question in questions %}
                 <ol class="questions">
                     {% set index = loop.index %}
-                    {% set map = { 1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e' } %}
+                    {% set name = ['q', index]|join('-') %}
                     <li>
-                        <input type="text" class="validate" name="q-{{ index }}" value="{{ question.question.content }}">
-                        <span class="helper-text"></span>
+                        <input type="text" class="validate {{ errors[name] ? 'invalid' : 'valid' }}" name="{{ name }}" value="{{ question.question.content }}">
+                        <span class="helper-text" data-error="{{ errors[name] }}"></span>
                     </li>
                     <ol style="list-style-type: lower-latin;" class="answers">
                         {% for answer in question.answers %}
+                        {% set option_name = ['q', index, map[loop.index]]|join('-') %}
                         <li>
-                            <input type="text" class="validate" name="q-{{ index }}-{{ map[loop.index] }}" value="{{ answer.content }}">
-                            <span class="helper-text"></span>
+                            <input type="text" class="validate {{ errors[option_name] ? 'invalid' : 'valid' }}" name="{{ option_name }}" value="{{ answer.content }}">
+                            <span class="helper-text" data-error="{{ errors[option_name] }}"></span>
                         </li>
                         {% endfor %}
                     </ol>
@@ -86,5 +88,5 @@ Survey App - Define Create
 {% endblock %}
 
 {% block script %}
-<!--script src="{{ doc_root }}js/create.js"></script-->
+<script src="{{ doc_root }}js/create.js"></script>
 {% endblock %}
