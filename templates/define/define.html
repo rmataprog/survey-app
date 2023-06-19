@@ -27,7 +27,7 @@ Survey App - Define
         </div>
         <form method="GET">
             <div class="input-field col s4 offset-s4">
-                {% if surveys_amount > 0 %}
+                {% if error is not defined and surveys_amount > 0 %}
                 <select id="select_survey" name="survey_id">
                     <option value="" disabled selected>Select Survey</option>
                     {% for survey in surveys %}
@@ -39,7 +39,7 @@ Survey App - Define
                 <select disabled>
                     <option value="" disabled selected>Select Survey</option>
                 </select>
-                <span class="helper-text red-text">No Surveys Available</span>
+                <span class="helper-text red-text">{{ error is defined ? error.message : 'No Surveys Available' }}</span>
                 {% endif %}
             </div>
             <div class="col offset-s4 s2">

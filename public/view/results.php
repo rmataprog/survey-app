@@ -5,10 +5,10 @@ if(!$cms->getSession()->logged_in) {
     redirect(DOC_ROOT . "/user/login.php");
 }
 $user_id = $_SESSION['id'];
-$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
+$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT) ? intval($_GET['survey_id']) : false;
 if($survey_id) {
     $survey = $cms->getSurvey()->get_survey($survey_id);
-    if($survey) {
+    if($survey['valid'] && $survey['data']) {
         $questions = $cms->getSurvey()->get_questions($survey_id);
         $results = $cms->getSurvey()->get_survey_results($survey_id);
         $data['results'] = array_map(function($q) use ($results) {

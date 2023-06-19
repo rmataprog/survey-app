@@ -15,19 +15,12 @@ Survey App - Conduct
             <h2 class="center-align">Conduct Survey</h2>
         </div>
     </div>
-    {% if surveys|length == 0 %}
+    {% if error is defined %}
     <div class="section">
         <div class="row">
             <h4 class="center-align red-text">
-                No surveys available
+                {{ error.message }}
             </h4>
-            <p class="center-align red-text">
-                {% if coordinator == 1 %}
-                You haven't created any surveys yet
-                {% else %}
-                You may only see surveys that have started
-                {% endif %}
-            </p>
         </div>
     </div>
     {% else %}

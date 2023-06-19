@@ -8,16 +8,22 @@ if(!$cms->getSession()->logged_in) {
 
 $id = $cms->getSession()->id;
 
-$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
+$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT) ? intval($_GET['survey_id']) : false;
 
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $survey = $cms->getSurvey()->get_survey($survey_id);
-    $questions = $cms->getSurvey()->get_questions($survey_id);
-    $answers = $cms->getSurvey()->get_answers($survey_id);
-    $questions_answer = create_question_answer_array($questions, $answers);
-    $data['survey'] = $survey;
-    $data['questions'] = $questions_answer;
-    $data['coordinator'] = $_SESSION['coordinator'];
-    echo $twig->render('define/edit.html', $data);
+    if($survey_id) {
+        $survey = $cms->getSurvey()->get_survey($survey_id);
+        if($survey['valid']) {
+            $questions = $cms->getSurvey()->get_questions($survey_id);
+            $answers = $cms->getSurvey()->get_answers($survey_id);
+            $questions_answer = create_question_answer_array($questions, $answers);
+            $data['survey'] = $survey['data'];
+            $data['questions'] = $questions_answer;
+            $data['coordinator'] = $_SESSION['coordinator'];
+            echo $twig->render('define/edit.html', $data);
+        }
+    } else {
+        redirect(DOC_ROOT . 'notFound.php');
+    }
 }
 ?>

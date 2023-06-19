@@ -7,7 +7,7 @@ class Survey {
         $this->db = $db;
     }
 
-    public function get_surveys_for_id(int $id, int $show = null, int $offset = null): array {
+    public function get_surveys_for_id(int $id, int $offset = null, int $show = 3): array {
         $sql = "SELECT id,
             title,
             start_date,
@@ -15,20 +15,30 @@ class Survey {
             FROM survey
             WHERE survey.user_id = :id";
         $input = [ "id"=>$id ];
-        if($show !== null && $offset !== null) {
+        if($offset !== null) {
             $sql .= ' ' . 'LIMIT :show OFFSET :offset';
             $input['show'] = $show;
             $input['offset'] = $offset;
         }
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data, 'show'=>$show];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was a problem retrieving surveys'];
+        } 
     }
 
-    public function surveys_exist(int $id): int {
+    public function surveys_exist(int $id): array {
         $sql = "SELECT count(*)
             FROM survey
             WHERE survey.user_id = :id";
         $input = [ "id"=>$id ];
-        return $this->db->runSQL($sql, $input)->fetchColumn();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchColumn();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function get_survey_for_user(int $id, int $survey_id): array {
@@ -56,7 +66,12 @@ class Survey {
         $input = [
             "id"=>$id
         ];
-        return $this->db->runSQL($sql, $input)->fetch();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetch();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was problem retrieving the survey'];
+        }
     }
 
     public function create_survey(int $id, string $title) {
@@ -180,21 +195,25 @@ class Survey {
     }
 
     public function give_answers(int $survey_taken_id, array $answers, int $amount) {
-        $sql = "INSERT INTO answer_given(survey_taken_id, answer_id)
+        try {
+            $sql = "INSERT INTO answer_given(survey_taken_id, answer_id)
             VALUES ";
-        $count = 1;
-        $input = [];
-        foreach ($answers as $question=>$answer) {
-            $sql .= "(:survey_taken_id_$count, :answer_$count)";
-            $input["survey_taken_id_$count"] = $survey_taken_id;
-            $input["answer_$count"] = $answer;
-            if($count < $amount) {
-                $sql .= ', ';
+            $count = 1;
+            $input = [];
+            foreach ($answers as $question=>$answer) {
+                $sql .= "(:survey_taken_id_$count, :answer_$count)";
+                $input["survey_taken_id_$count"] = $survey_taken_id;
+                $input["answer_$count"] = $answer;
+                if($count < $amount) {
+                    $sql .= ', ';
+                }
+                $count += 1;
             }
-            $count += 1;
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true,'message'=>'Thanks for participating'];
+        } catch (\PDOException $e) {
+            return ['valid'=>false,'message'=>'there was a problem submitting your answers, try again later'];
         }
-        $this->db->runSQL($sql, $input);
-        return true;
     }
 
     public function check_survey_taken(int $survey_id, int $user_id) {
