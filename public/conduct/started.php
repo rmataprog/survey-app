@@ -6,8 +6,8 @@ if(!$cms->getSession()->logged_in) {
     redirect(DOC_ROOT . "/user/login.php");
 }
 
-$user_id = intval($_SESSION['id']);
-$is_coordinator = $_SESSION['coordinator'];
+$user_id = $cms->getSession()->id;
+$coordinator = $cms->getSession()->coordinator;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $start_now = isset($_POST['start_immediately']) && $_POST['start_immediately'] == 'on' ? true : false;
@@ -24,26 +24,45 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $data = filter_input_array(INPUT_POST, $filters);
 
-    $survey_id = isset($_POST['survey_id']) ? intval($_POST['survey_id']) : false;
+    $survey_id = filter_input(INPUT_POST, 'survey_id', FILTER_VALIDATE_INT);
 
     $start_date_time = format_date_time($data['start_date'], $data['start_time'], $start_now);
     $end_date_time = format_date_time($data['end_date'], $data['end_time'], false);
 
-    if($is_coordinator == 1 && $survey_id) {
-        $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
-        if($survey) {
-            if($survey['start_date'] == null) {
-                $cms->getSurvey()->start_survey($survey_id, $start_date_time, $end_date_time);
-                $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
-                $submissions = $cms->getSurvey()->get_submissions_count($survey_id);
-                $survey['submissions'] = $submissions;
-                $survey['coordinator'] = $_SESSION['coordinator'];
-                echo $twig->render("conduct/summary.html", $survey);
+    if($coordinator) {
+        if($survey_id) {
+            $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
+            if($survey['valid']) {
+                if($survey['data']) {
+                    $title = $survey['data']['title'];
+                    if($survey['data']['start_date'] == null) {
+                        $cms->getSurvey()->start_survey($survey_id, $start_date_time, $end_date_time);
+                        $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
+                        if($survey['valid']) {
+                            $submissions = $cms->getSurvey()->get_submissions_count($survey_id);
+                            $data = $survey['data'];
+                            $data['submissions'] = $submissions;
+                            $data['coordinator'] = $coordinator;
+                            echo $twig->render("conduct/summary.html", $data);
+                        } else {
+                            $message = "We manage to start the survey: \"$title\", but had trouble retrieving its information";
+                            $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>$message];
+                            redirect(DOC_ROOT . 'conduct/list.php', $load);
+                        }
+                    } else {
+                        $message = "Survey \"$title\" already started";
+                        $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>$message];
+                        redirect(DOC_ROOT . 'conduct/list.php', $load);
+                    }
+                } else {
+                    redirect(DOC_ROOT . 'notFound.php');
+                }
             } else {
-                redirect(DOC_ROOT . 'conduct/list.php');
+                $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>'There was a problem starting the survey'];
+                redirect(DOC_ROOT . 'conduct/start.php', $load);
             }
         } else {
-            redirect(DOC_ROOT . 'conduct/list.php');
+            redirect(DOC_ROOT . 'notFound.php');
         }
     } else {
         redirect(DOC_ROOT . 'conduct/list.php');

@@ -4,17 +4,32 @@ require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
     redirect(DOC_ROOT . "/user/login.php");
 }
-$user_id = $_SESSION['id'];
-$is_coordinator = $_SESSION['coordinator'];
-$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
-if($is_coordinator && $survey_id) {
-    $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
-    $survey['coordinator'] = $_SESSION['coordinator'];
-    if($survey) {
-        echo $twig->render('conduct/start.html', $survey);
+$user_id = $cms->getSession()->id;
+$coordinator = $cms->getSession()->coordinator;
+if($coordinator) {
+    $survey['coordinator'] = $coordinator;
+    $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
+    $error = filter_input(INPUT_GET, 'error', FILTER_VALIDATE_BOOLEAN);
+    $error_message = isset($_GET['error_message'])? $_GET['error_message'] : '';
+    if(!$error) {
+        if($survey_id) {
+            $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
+            if($survey['valid']) {
+                if($survey['data']) {
+                    $data = $survey['data'];
+                } else {
+                    redirect(DOC_ROOT . 'notFound.php');
+                }
+            } else {
+                $data['error']['message'] = 'There was problem retrieving survey data';
+            }
+        } else {
+            redirect(DOC_ROOT . 'notFound.php');
+        }
     } else {
-        redirect(DOC_ROOT . 'conduct/list.php');
+        $data['error']['message'] = filter_var($error_message, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
+    echo $twig->render('conduct/start.html', $data);
 } else {
     redirect(DOC_ROOT . 'conduct/list.php');
 }

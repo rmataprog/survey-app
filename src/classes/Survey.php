@@ -37,7 +37,7 @@ class Survey {
             $data = $this->db->runSQL($sql, $input)->fetchColumn();
             return ['valid'=>true, 'data'=>$data];
         } catch (\PDOException $e) {
-            return ['valid'=>false];
+            return ['valid'=>false, 'message'=>'There was a problem retrieving surveys count'];
         }
     }
 
@@ -53,7 +53,12 @@ class Survey {
             "id"=>$id,
             "survey_id"=>$survey_id
         ];
-        return $this->db->runSQL($sql, $input)->fetch();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetch();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was a problem retrieving survey data for user'];
+        }
     }
 
     public function get_survey(int $id) {

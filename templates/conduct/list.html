@@ -13,6 +13,7 @@ Survey App - Conduct
     <div class="section">
         <div class="row">
             <h2 class="center-align">Conduct Survey</h2>
+            <p class="center-align"><span class="helper-text red-text">{{ start_error }}</span></p>
         </div>
     </div>
     {% if error is defined %}
@@ -26,35 +27,41 @@ Survey App - Conduct
     {% else %}
     <div class="section">
         <div class="row">
-            {% for survey in surveys %}
-            <div class="col s8 offset-s2">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">{{ survey.title }}</span>
-                    </div>
-                    {% if coordinator == 1 %}
-                    <div class="card-action right-align">
-                        {% if survey.start_date == null %}
-                        <a href="{{ doc_root }}conduct/start.php?survey_id={{ survey.id }}">Start</a>
+            {% if surveys|length > 0 %}
+                {% for survey in surveys %}
+                <div class="col s8 offset-s2">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">{{ survey.title }}</span>
+                        </div>
+                        {% if coordinator == 1 %}
+                        <div class="card-action right-align">
+                            {% if survey.start_date == null %}
+                            <a href="{{ doc_root }}conduct/start.php?survey_id={{ survey.id }}">Start</a>
+                            {% else %}
+                            <span>
+                                {% if date() > date(survey.start_date) %}Started{% endif %}
+                                {% if date() < date(survey.start_date) %}Will start{% endif %} 
+                                on {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
+                                - {% if date() < date(survey.end_date) %}Will end{% endif %}
+                                {% if date() > date(survey.end_date) %}Ended{% endif %}
+                                on {{ survey.end_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
+                            </span>
+                            {% endif %}
+                        </div>
                         {% else %}
-                        <span>
-                            {% if date() > date(survey.start_date) %}Started{% endif %}
-                            {% if date() < date(survey.start_date) %}Will start{% endif %} 
-                            on {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
-                            - {% if date() < date(survey.end_date) %}Will end{% endif %}
-                            {% if date() > date(survey.end_date) %}Ended{% endif %}
-                            on {{ survey.end_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
-                        </span>
+                        <div class="card-action right-align">
+                            <a href="{{ doc_root }}conduct/participate.php?id={{ survey.id }}" target="_blank">Participate</a>
+                        </div>
                         {% endif %}
                     </div>
-                    {% else %}
-                    <div class="card-action right-align">
-                        <a href="{{ doc_root }}conduct/participate.php?id={{ survey.id }}" target="_blank">Participate</a>
-                    </div>
-                    {% endif %}
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+            <h4 class="center-align">
+                No Surveys to Show
+            </h4>
+            {% endif %}
         </div>
     </div>
     {{ include('helpers/pagination.html') }}
