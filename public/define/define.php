@@ -6,6 +6,9 @@ if(!$cms->getSession()->logged_in) {
 }
 $id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
+$error = filter_input(INPUT_GET, 'error', FILTER_VALIDATE_BOOLEAN);
+$retrieve_error = isset($_GET['error_message']) ? $_GET['error_message'] : '';
+
 if($coordinator) {
     $surveys_amount = $cms->getSurvey()->surveys_exist($id);
     if($surveys_amount['valid']) {
@@ -22,6 +25,9 @@ if($coordinator) {
         }
     } else {
         $data['error']['message'] = $surveys['message'];
+    }
+    if($error) {
+        $data['error']['message'] = $retrieve_error;
     }
     $data['coordinator'] = $cms->getSession()->coordinator;
     echo $twig->render('define/define.html', $data);
