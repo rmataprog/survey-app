@@ -86,8 +86,13 @@ class Survey {
             "title"=>$title,
             "id"=>$id
         ];
-        $this->db->runSQL($sql, $input);
-        return $this->db->lastInsertId();
+        try {
+            $this->db->runSQL($sql, $input);
+            $lastId = $this->db->lastInsertId();
+            return ['valid'=>true, 'data'=>$lastId];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was a problem creating the survey'];
+        }
     }
 
     public function update_survey(int $id, string $title) {
@@ -98,7 +103,12 @@ class Survey {
             "title"=>$title,
             "id"=>$id
         ];
-        $this->db->runSQL($sql, $input);
+        try {
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was a problem updating the survey'];
+        }
     }
 
     public function start_survey(int $id, string $start_date, string $end_date) {
@@ -111,26 +121,36 @@ class Survey {
             "start_date"=>$start_date,
             "id"=>$id
         ];
-        $this->db->runSQL($sql, $input);
+        try {
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was a problem starting the survey'];
+        }
     }
 
     public function create_questions(int $id, array $questions) {
         $sql = "INSERT INTO question (survey_id, content)
             VALUES ";
-        $counter = 1;
-        $amount_questions = count($questions);
-        $input = [];
-        foreach($questions as $question) {
-            $input["id_$counter"] = $id;
-            $input["content_$counter"] = $question;
-            if($counter == $amount_questions) {
-                $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . ")";
-            } else {
-                $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . "),";
+        try {
+            $counter = 1;
+            $amount_questions = count($questions);
+            $input = [];
+            foreach($questions as $question) {
+                $input["id_$counter"] = $id;
+                $input["content_$counter"] = $question;
+                if($counter == $amount_questions) {
+                    $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . ")";
+                } else {
+                    $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . "),";
+                }
+                $counter += 1;
             }
-            $counter += 1;
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true];
+        } catch (\PDOException $e) {
+            return ['valid'=>false, 'message'=>'There was a problem creating the survey'];
         }
-        $this->db->runSQL($sql, $input);
     }
 
     public function get_questions(int $id) {
@@ -140,26 +160,36 @@ class Survey {
         $input = [
             "id" => $id
         ];
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function create_answers(array $answers) {
         $sql = "INSERT INTO answer (question_id, content)
             VALUES ";
-        $counter = 1;
-        $amount_answers = count($answers);
-        $input = [];
-        foreach($answers as $answer) {
-            $input["id_$counter"] = $answer[0];
-            $input["content_$counter"] = $answer[1];
-            if($counter == $amount_answers) {
-                $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . ")";
-            } else {
-                $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . "),";
+        try {
+            $counter = 1;
+            $amount_answers = count($answers);
+            $input = [];
+            foreach($answers as $answer) {
+                $input["id_$counter"] = $answer[0];
+                $input["content_$counter"] = $answer[1];
+                if($counter == $amount_answers) {
+                    $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . ")";
+                } else {
+                    $sql .= "(:id_" . "$counter" . ', :content_' . "$counter" . "),";
+                }
+                $counter += 1;
             }
-            $counter += 1;
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
         }
-        $this->db->runSQL($sql, $input);
     }
 
     public function get_answers(int $id) {
@@ -171,7 +201,12 @@ class Survey {
         $input = [
             "id"=>$id
         ];
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function get_submissions_count(int $survey_id) {
@@ -181,22 +216,32 @@ class Survey {
         $input = [
             'survey_id'=>$survey_id
         ];
-        return $this->db->runSQL($sql, $input)->fetchColumn();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchColumn();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function take_survey(int $survey_id, int $user_id = 0, $date) {
         $sql = "INSERT INTO survey_taken(survey_id, " . ($user_id == 0 ? ' ' : 'user_id,') . " date)
             VALUES (:survey_id, " . ($user_id == 0 ? ' ' : ':user_id,') . " :date)";
-        $formatted_date = $date->format('Y-m-d H:i:s');
-        $input = [
-            'survey_id'=>$survey_id,
-            'date'=>$formatted_date
-        ];
-        if($user_id > 0) {
-            $input['user_id'] = $user_id;
+        try {
+            $formatted_date = $date->format('Y-m-d H:i:s');
+            $input = [
+                'survey_id'=>$survey_id,
+                'date'=>$formatted_date
+            ];
+            if($user_id > 0) {
+                $input['user_id'] = $user_id;
+            }
+            $this->db->runSQL($sql, $input);
+            $data = $this->db->lastInsertId();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
         }
-        $this->db->runSQL($sql, $input);
-        return $this->db->lastInsertId();
     }
 
     public function give_answers(int $survey_taken_id, array $answers, int $amount) {
@@ -229,7 +274,12 @@ class Survey {
             'survey_id' => $survey_id,
             'user_id' => $user_id
         ];
-        return $this->db->runSQL($sql, $input)->fetchColumn();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchColumn();
+            return ['valid'=>true];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function get_survey_list_submissions(int $user_id) {
@@ -260,7 +310,12 @@ class Survey {
             'user_id_1' => $user_id,
             'user_id_2' => $user_id
         ];
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function get_survey_list_submissions_for_respondant(int $user_id) {
@@ -278,7 +333,12 @@ class Survey {
         $input = [
             'user_id' => $user_id
         ];
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function get_survey_results(int $survey_id) {

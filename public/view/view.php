@@ -19,11 +19,16 @@ if($_SESSION['coordinator'] == 1) {
     $surveys = $cms->getSurvey()->get_survey_list_submissions_for_respondant($user_id);
 }
 
-$data['surveys'] = array_slice($surveys, $offset, 3);
-$data['total'] = count($surveys);
-$data['path'] = 'view/view.php';
-$data["current"] = floor($offset / 3);
-$data['coordinator'] = $_SESSION['coordinator'];
+if($surveys['valid']) {
+    $data['surveys'] = array_slice($surveys['data'], $offset, 3);
+    $data['total'] = count($surveys['data']);
+    $data['path'] = 'view/view.php';
+    $data["current"] = floor($offset / 3);
+    $data['coordinator'] = $_SESSION['coordinator'];
+} else {
+    $data['error'] = 'there was a problem getting the surveys';
+}
+
 if($error) {
     $data['error'] = $error;
 }

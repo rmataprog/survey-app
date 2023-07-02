@@ -10,6 +10,11 @@ Survey App - Define Create
 
 {% block content %}
 <div class="container">
+    {% if error is defined %}
+    <div class="row">
+        <h4 class="center-align red-text">{{ error.message }}</h4>
+    </div>
+    {% endif%}
     <form id="createForm" action="{{ doc_root }}define/create.php" method="POST">
         <div class="section">
             <div class="input-field col s12">

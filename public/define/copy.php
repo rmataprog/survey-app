@@ -7,26 +7,43 @@ if(!$cms->getSession()->logged_in) {
 }
 
 $id = $cms->getSession()->id;
-
+$coordinator = $cms->getSession()->coordinator;
 $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
 
-if($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if($survey_id) {
-        $survey = $cms->getSurvey()->get_survey($survey_id);
-        if($survey['valid']) {
-            $questions = $cms->getSurvey()->get_questions($survey_id);
-            $answers = $cms->getSurvey()->get_answers($survey_id);
-            $questions_answer = create_question_answer_array($questions, $answers);
-            $survey['data']['title'] = 'COPY - ' . $survey['data']['title'];
-            $data['survey'] = $survey['data'];
-            $data['questions'] = $questions_answer;
-            $data['coordinator'] = $_SESSION['coordinator'];
-            echo $twig->render('define/copy.html', $data);
+if($coordinator) {
+    if($_SERVER['REQUEST_METHOD'] == 'GET') {
+        if($survey_id) {
+            $survey = $cms->getSurvey()->get_survey($survey_id);
+            if($survey['valid']) {
+                if($survey['data']){
+                    $questions = $cms->getSurvey()->get_questions($survey_id);
+                    $answers = $cms->getSurvey()->get_answers($survey_id);
+                    if($questions['valid'] && $answers['valid']) {
+                        $questions_answer = create_question_answer_array($questions['data'], $answers['data']);
+                        $survey['data']['title'] = 'COPY - ' . $survey['data']['title'];
+                        $data['survey'] = $survey['data'];
+                        $data['questions'] = $questions_answer;
+                        $data['coordinator'] = $_SESSION['coordinator'];
+                        echo $twig->render('define/copy.html', $data);
+                    } else {
+                        $load = ['error'=>true, 'error_message'=>'There was a problem retrieving data from survey'];
+                        redirect(DOC_ROOT . '/define/define.php', $load);
+                    }
+                } else {
+                    redirect(DOC_ROOT . 'notFound.php');
+                }
+            } else {
+                $message = "There was a problem retrieving data from survey";
+                $load = ['error'=>true, 'error_message'=>$message];
+                redirect(DOC_ROOT . '/define/define.php', $load);
+            }
         } else {
             redirect(DOC_ROOT . 'notFound.php');
         }
     } else {
-        redirect(DOC_ROOT . 'notFound.php');
+        redirect(DOC_ROOT . '/view/view.php');
     }
+} else {
+    redirect(DOC_ROOT . '/view/view.php');
 }
 ?>

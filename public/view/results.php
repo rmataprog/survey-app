@@ -5,26 +5,35 @@ if(!$cms->getSession()->logged_in) {
     redirect(DOC_ROOT . "/user/login.php");
 }
 $user_id = $_SESSION['id'];
-$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT) ? intval($_GET['survey_id']) : false;
+$survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
+
 if($survey_id) {
     $survey = $cms->getSurvey()->get_survey($survey_id);
-    if($survey['valid'] && $survey['data']) {
-        $questions = $cms->getSurvey()->get_questions($survey_id);
-        $results = $cms->getSurvey()->get_survey_results($survey_id);
-        $data['results'] = array_map(function($q) use ($results) {
-            $r['question'] = $q;
-            $r['answers'] = [];
-            foreach($results as $v) {
-                if($q['id'] == $v['question_id']) {
-                    array_push($r['answers'], $v);
-                };
-            };
-            return $r;
-        }, $questions);
-        $data['coordinator'] = $_SESSION['coordinator'];
-        echo $twig->render('view/results.html', $data);
+    if($survey['valid']) {
+        if($survey['data']) {
+            $questions = $cms->getSurvey()->get_questions($survey_id);
+            $results = $cms->getSurvey()->get_survey_results($survey_id);
+            if($questions['valid']) {
+                $data['results'] = array_map(function($q) use ($results) {
+                    $r['question'] = $q;
+                    $r['answers'] = [];
+                    foreach($results as $v) {
+                        if($q['id'] == $v['question_id']) {
+                            array_push($r['answers'], $v);
+                        };
+                    };
+                    return $r;
+                }, $questions['data']);
+                $data['coordinator'] = $cms->getSession()->coordinator;
+                echo $twig->render('view/results.html', $data);
+            } else {
+                redirect(DOC_ROOT . "view/view.php", ['error'=>'There was a problem getting survey results']);
+            }
+        } else {
+            redirect(DOC_ROOT . "view/view.php", ['error'=>'survey could not be found']);
+        }
     } else {
-        redirect(DOC_ROOT . "view/view.php", ['error'=>'survey could not be found']);
+        redirect(DOC_ROOT . "view/view.php", ['error'=>'There was a problem retrieving survey participation data']);
     }
 } else {
     redirect(DOC_ROOT . "view/view.php", ['error'=>'survey could not be found']);

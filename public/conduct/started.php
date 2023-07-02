@@ -36,18 +36,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if($survey['data']) {
                     $title = $survey['data']['title'];
                     if($survey['data']['start_date'] == null) {
-                        $cms->getSurvey()->start_survey($survey_id, $start_date_time, $end_date_time);
-                        $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
-                        if($survey['valid']) {
+                        $valid = $cms->getSurvey()->start_survey($survey_id, $start_date_time, $end_date_time);
+                        if($valid['valid']) {
+                            $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
                             $submissions = $cms->getSurvey()->get_submissions_count($survey_id);
-                            $data = $survey['data'];
-                            $data['submissions'] = $submissions;
-                            $data['coordinator'] = $coordinator;
-                            echo $twig->render("conduct/summary.html", $data);
+                            if($survey['valid'] && $submissions['valid']) {
+                                $data = $survey['data'];
+                                $data['submissions'] = $submissions['data'];
+                                $data['coordinator'] = $coordinator;
+                                echo $twig->render("conduct/summary.html", $data);
+                            } else {
+                                $message = "We manage to start the survey: \"$title\", but had trouble retrieving its information";
+                                $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>$message];
+                                redirect(DOC_ROOT . 'conduct/list.php', $load);
+                            }
                         } else {
-                            $message = "We manage to start the survey: \"$title\", but had trouble retrieving its information";
-                            $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>$message];
-                            redirect(DOC_ROOT . 'conduct/list.php', $load);
+                            $load = ['error'=>true, 'error_message'=>$valid['message']];
+                            redirect(DOC_ROOT . 'conduct/start.php', $load);
                         }
                     } else {
                         $message = "Survey \"$title\" already started";

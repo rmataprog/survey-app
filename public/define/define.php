@@ -13,15 +13,11 @@ if($coordinator) {
     $surveys_amount = $cms->getSurvey()->surveys_exist($id);
     if($surveys_amount['valid']) {
         $data['surveys_amount'] = $surveys_amount['data'];
-        if($data['surveys_amount'] > 0) {
-            $surveys = $cms->getSurvey()->get_surveys_for_id($id, null);
-            if($surveys['valid']) {
-                $data['surveys'] = $surveys['data'];
-            } else {
-                $data['error']['message'] = $surveys['message'];
-            }
+        $surveys = $cms->getSurvey()->get_surveys_for_id($id, null);
+        if($surveys['valid']) {
+            $data['surveys'] = $surveys['data'];
         } else {
-            $data['error']['message'] = 'No Surveys Available';
+            $data['error']['message'] = $surveys['message'];
         }
     } else {
         $data['error']['message'] = $surveys['message'];
