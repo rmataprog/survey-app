@@ -33,27 +33,50 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data['error']['password'] = !$data['password'] ? 'Password must have between 8 and 12 characters, containt alpha numberic charaters. !#$%&_^ are allowed' : '';
     $data['error']['confirm'] = $data['password'] !== $form['confirm'] ? 'Password and confirmation password must match, please check' : '';
     if($valid) {
-        $amount = $cms->getUser()->verifyEmailExistense($data['email']);
-        if($amount > 0) {
-            $data['error']['header'] = 'email already exists';
-            echo $twig->render('user/register.html', $data);
+        $verify = $cms->getUser()->verifyEmailExistense($data['email']);
+        if($verify['valid']) {
+            $amount = $verify['data'];
+            if($amount > 0) {
+                $data['error']['header'] = 'email already exists';
+                echo $twig->render('user/register.html', $data);
+            } else {
+                $hash = password_hash($data['password'], PASSWORD_DEFAULT);
+                $register = $cms->getUser()->register(!$data['first_name'] ? null : $data['first_name'], !$data['last_name'] ? null : $data['last_name'], $data['email'], $data['coordinator'], $hash);
+                if($register['valid']) {
+                    $id = $register['data'];
+                    $cms->getSession()->start(['id'=>$id, 'coordinator'=>$data['coordinator']]);
+                    $expiry_date = get_expiration_date();
+                    $token = $cms->getUser()->createToken($id, 'confirm email', $expiry_date);
+                    $link = DOMAIN . DOC_ROOT . 'user/confirm.php?token=' . $token['data'];
+                    $body = $cms->getUser()->CreateEmailTemplate(1, $link);
+                    if($token['valid'] && $body['valid']) {
+                        $message = [
+                            'subject'=> 'Survey App: please confirm your email',
+                            'body'=> $body['data'],
+                            'altBody'=> "Please click this link to confirm your account: $link"
+                        ];
+                        $sent = $cms->getEmail()->send_email($data['email'], $message);
+                        if($sent) {
+                            $data['message'] = 'Your account was created. An email was sent to confirm your email address for confirmation.';
+                            $data['type'] = 3;
+                        } else {
+                            $data['message'] = 'Your account was created. But there was a problem sending the confirmation email.';
+                            $data['type'] = 9;
+                        }
+                        echo $twig->render('helpers/response.html', $data);
+                    } else {
+                        $data['message'] = 'Your account was created. But there was a problem sending the confirmation email.';
+                        $data['type'] = 9;
+                        echo $twig->render('helpers/response.html', $data);
+                    }
+                } else {
+                    $data['error']['header'] = 'There was a problem creating your account';
+                    echo $twig->render('user/register.html', $data);
+                }
+            }
         } else {
-            $hash = password_hash($data['password'], PASSWORD_DEFAULT);
-            $id = $cms->getUser()->register(!$data['first_name'] ? null : $data['first_name'], !$data['last_name'] ? null : $data['last_name'], $data['email'], $data['coordinator'], $hash);
-            $cms->getSession()->start(['id'=>$id, 'coordinator'=>$data['coordinator']]);
-            $expiry_date = get_expiration_date();
-            $token = $cms->getUser()->createToken($id, 'confirm email', $expiry_date);
-            $link = DOMAIN . DOC_ROOT . 'user/confirm.php?token=' . $token;
-            $body = $cms->getUser()->CreateEmailTemplate(1, $link);
-            $message = [
-                'subject'=> 'Survey App: please confirm your email',
-                'body'=> $body,
-                'altBody'=> "Please click this link to confirm your account: $link"
-            ];
-            $sent = $cms->getEmail()->send_email($data['email'], $message);
-            $data['message'] = 'Your account was created. An email was sent to confirm your email address for confirmation.';
-            $data['type'] = 3;
-            echo $twig->render('helpers/response.html', $data);
+            $data['error']['header'] = 'There was a problem creating your account';
+            echo $twig->render('user/register.html', $data);
         }
     } else {
         echo $twig->render('user/register.html', $data);

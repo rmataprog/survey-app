@@ -17,12 +17,16 @@ class Email {
     }
 
     public function send_email(string $user_email, $config) {
-        $this->mail->addAddress($user_email);
-        $this->mail->Subject = $config['subject'];
-        $this->mail->Body    = $config['body'];
-        $this->mail->AltBody = $config['altBody'];
-        $this->mail->send();
-        return true;
+        try {
+            $this->mail->addAddress($user_email);
+            $this->mail->Subject = $config['subject'];
+            $this->mail->Body    = $config['body'];
+            $this->mail->AltBody = $config['altBody'];
+            $this->mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }
 ?>

@@ -70,6 +70,10 @@ if($coordinator) {
                     $data = $cms->getSurvey()->update_survey($survey_id, $title);
                     if($data['valid']) {
                         $deleted = $cms->getSurvey()->delete_questions($survey_id);
+                        if(!$deleted) {
+                            $message = 'There was a problem saving the edits of the survey';
+                            redirect(DOC_ROOT . '/define/define.php', ['error'=>true, 'error_message'=>$message]);
+                        }
                     } else {
                         redirect(DOC_ROOT . '/define/create.php', ['error'=>true, 'error_message'=>$data['message']]);
                     }

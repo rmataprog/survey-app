@@ -14,12 +14,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($password == $confirm) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $token_data = $cms->getUser()->getTokenData($token);
-        $reset = $cms->getUser()->resetPassword($token_data['user_id'], $hash);
-        if($reset) {
-            $data['message'] = 'Password was changed.';
-            $data['type'] = 6;
-            $cms->getSession()->start(['id'=>$token_data['user_id'], 'coordinator'=>$token_data['coordinator']]);
-            echo $twig->render('helpers/response.html', $data);
+        if($token_data['valid']) {
+            $reset = $cms->getUser()->resetPassword($token_data['data']['user_id'], $hash);
+            if($reset) {
+                $data['message'] = 'Password was changed.';
+                $data['type'] = 6;
+                $cms->getSession()->start(['id'=>$token_data['data']['user_id'], 'coordinator'=>$token_data['data']['coordinator']]);
+                echo $twig->render('helpers/response.html', $data);
+            } else {
+                $data['message'] = 'Password could not be changed.';
+                $data['type'] = 7;
+                echo $twig->render('helpers/response.html', $data);
+            }
         } else {
             $data['message'] = 'Password could not be changed.';
             $data['type'] = 7;

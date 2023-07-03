@@ -276,7 +276,7 @@ class Survey {
         ];
         try {
             $data = $this->db->runSQL($sql, $input)->fetchColumn();
-            return ['valid'=>true];
+            return ['valid'=>true, 'data'=>$data];
         } catch (\PDOException $e) {
             return ['valid'=>false];
         }
@@ -366,7 +366,12 @@ class Survey {
             'survey_id_1' => $survey_id,
             'survey_id_2' => $survey_id
         ];
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function delete_questions(int $survey_id) {
@@ -375,11 +380,15 @@ class Survey {
         $input = [
             'survey_id' => $survey_id
         ];
-        $this->db->runSQL($sql, $input);
-        return true;
+        try {
+            $this->db->runSQL($sql, $input);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
-    public function get_latest_surveys_to_respond($show, $offset, $dateTime): array {
+    public function get_latest_surveys_to_respond($offset, $dateTime, $show = 3): array {
         $sql = "SELECT id,
                 title,
                 start_date,
@@ -396,7 +405,12 @@ class Survey {
             'show'=>$show,
             'offset'=>$offset
         ];
-        return $this->db->runSQL($sql, $input)->fetchAll();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchAll();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function get_active_surveys_count($dateTime): int {
@@ -409,7 +423,12 @@ class Survey {
             "now_1"=>$dateTime,
             "now_2"=>$dateTime
         ];
-        return $this->db->runSQL($sql, $input)->fetchColumn();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchColumn();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 }
 ?>

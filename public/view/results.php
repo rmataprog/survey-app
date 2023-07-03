@@ -4,7 +4,7 @@ require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
     redirect(DOC_ROOT . "/user/login.php");
 }
-$user_id = $_SESSION['id'];
+$user_id = $cms->getSession()->id;
 $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
 
 if($survey_id) {
@@ -13,11 +13,12 @@ if($survey_id) {
         if($survey['data']) {
             $questions = $cms->getSurvey()->get_questions($survey_id);
             $results = $cms->getSurvey()->get_survey_results($survey_id);
-            if($questions['valid']) {
-                $data['results'] = array_map(function($q) use ($results) {
+            $results_data = $results['data'];
+            if($questions['valid'] && $results['valid']) {
+                $data['results'] = array_map(function($q) use ($results_data) {
                     $r['question'] = $q;
                     $r['answers'] = [];
-                    foreach($results as $v) {
+                    foreach($results_data as $v) {
                         if($q['id'] == $v['question_id']) {
                             array_push($r['answers'], $v);
                         };

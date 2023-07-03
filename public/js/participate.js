@@ -19,4 +19,13 @@ $(document).ready(function() {
             e.preventDefault();
         }
     });
+
+    $('#cancel').on('click', function(e) {
+        e.preventDefault();
+        $('form ol').each((i, ol) => {
+            ol.querySelectorAll('input[type="radio"]').forEach((input, i) => {
+                input.checked = false;
+            });
+        });
+    });
 });

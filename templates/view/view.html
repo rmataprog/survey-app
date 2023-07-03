@@ -16,50 +16,52 @@ Survey App - View Results
             <p class="red-text center-align">{{ error }}</p>
         </div>
     </div>
-    {% if total == 0 %}
-    <div class="section">
-        <div class="row">
-            <h4 class="center-align red-text">
-                No surveys available
-            </h4>
-            <p class="center-align red-text">
-                {% if coordinator == 1 %}
-                You haven't created any surveys yet
-                {% else %}
-                You may only see results of surveys you have answered
-                {% endif %}
-            </p>
-        </div>
-    </div>
-    {% else %}
-        {% if surveys|length == 0 %}
+    {% if total is defined %}
+        {% if total == 0 %}
         <div class="section">
             <div class="row">
                 <h4 class="center-align red-text">
-                    Page does not exist
+                    No surveys available
                 </h4>
+                <p class="center-align red-text">
+                    {% if coordinator == 1 %}
+                    You haven't created any surveys yet
+                    {% else %}
+                    You may only see results of surveys you have answered
+                    {% endif %}
+                </p>
             </div>
         </div>
         {% else %}
-        <div class="section">
-            {% for survey in surveys %}
-            <div class="row">
-                <div class="col s8 offset-s2">
-                    <div class="card">
-                        <div class="card-content">
-                            <span class="card-title">{{ survey.title }}</span>
-                            <p>Start date: {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</p>
-                            <p>Submissions: {{ survey.submissions }}</p>
-                        </div>
-                        <div class="card-action right-align">
-                            <a href="{{ doc_root }}view/results.php?survey_id={{ survey.survey_id }}">View Results</a>
+            {% if surveys|length == 0 %}
+            <div class="section">
+                <div class="row">
+                    <h4 class="center-align red-text">
+                        Page does not exist
+                    </h4>
+                </div>
+            </div>
+            {% else %}
+            <div class="section">
+                {% for survey in surveys %}
+                <div class="row">
+                    <div class="col s8 offset-s2">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title">{{ survey.title }}</span>
+                                <p>Start date: {{ survey.start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</p>
+                                <p>Submissions: {{ survey.submissions }}</p>
+                            </div>
+                            <div class="card-action right-align">
+                                <a href="{{ doc_root }}view/results.php?survey_id={{ survey.survey_id }}">View Results</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-        {{ include('helpers/pagination.html') }}
+            {{ include('helpers/pagination.html') }}
+            {% endif %}
         {% endif %}
     {% endif %}
 </div>

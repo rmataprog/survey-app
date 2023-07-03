@@ -41,13 +41,21 @@ if($coordinator) {
     $surveys_count = $cms->getSurvey()->get_active_surveys_count($now->format('Y-m-d H:i:s'));
     $data["path"] = 'conduct/list.php';
     $data['coordinator'] = $coordinator;
-    if($surveys_count > 0) {
-        $surveys = $cms->getSurvey()->get_latest_surveys_to_respond($show, $offset, $now->format('Y-m-d H:i:s'));
-        $data["surveys"] = $surveys;
-        $data["total"] = $surveys_count;
-        $data["current"] = floor($offset / 3);
+    if($surveys_count['valid']) {
+        if($surveys_count > 0) {
+            $surveys = $cms->getSurvey()->get_latest_surveys_to_respond($offset, $now->format('Y-m-d H:i:s'));
+            if($surveys['valid']) {
+                $data["surveys"] = $surveys['data'];
+                $data["total"] = $surveys_count;
+                $data["current"] = floor($offset / 3);
+            } else {
+                $data['error']['message'] = 'There was a problem retrieving the list of surveys';
+            }
+        } else {
+            $data['error']['message'] = 'You may only see surveys that are currently running';
+        }
     } else {
-        $data['error']['message'] = 'You may only see surveys that have started';
+        $data['error']['message'] = 'There was a problem retrieving the list of surveys';
     }
     echo $twig->render("conduct/list.html", $data);
 }

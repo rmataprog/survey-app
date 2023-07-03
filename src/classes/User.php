@@ -23,20 +23,28 @@ class User {
             "coordinator" => $coordinator,
             "password" => $password
         ];
-        $this->db->runSQL($sql, $input);
-        return $this->db->lastInsertId();
+        try {
+            $this->db->runSQL($sql, $input);
+            $data = $this->db->lastInsertId();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        } 
     }
 
     public function verifyEmailExistense(string $email): int {
         $sql = 'SELECT COUNT(*)
             FROM user_
             WHERE user_.email = :email';
-
         $input = [
             "email" => $email
         ];
-
-        return $this->db->runSQL($sql, $input)->fetchColumn();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetchColumn();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function getUser(string $email) {
@@ -52,8 +60,12 @@ class User {
         $input = [
             'email' => $email
         ];
-
-        return $this->db->runSQL($sql, $input)->fetch();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetch();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function createToken(int $user_id, string $purpose, string $expiry_date) {
@@ -75,8 +87,12 @@ class User {
             "expiry"=>$expiry_date,
             "purpose"=>$purpose
         ];
-        $this->db->runSQL($sql, $input);
-        return $token;
+        try {
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true, 'data'=>$token];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function getTokenData(string $token) {
@@ -93,7 +109,12 @@ class User {
         $input = [
             'token'=>$token
         ];
-        return $this->db->runSQL($sql, $input)->fetch();
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetch();
+            return ['valid'=>true,'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 
     public function confirmUser(int $id) {
@@ -103,8 +124,12 @@ class User {
         $input = [
             'id'=>$id
         ];
-        $this->db->runSQL($sql, $input);
-        return true;
+        try {
+            $this->db->runSQL($sql, $input);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
     public function resetPassword(int $id, string $password) {
@@ -115,8 +140,12 @@ class User {
             'id'=>$id,
             'password'=>$password
         ];
-        $this->db->runSQL($sql, $input);
-        return true;
+        try {
+            $this->db->runSQL($sql, $input);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
     public function CreateEmailTemplate(int $type, string $url) {
@@ -126,9 +155,13 @@ class User {
         $input = [
             'type'=>$type
         ];
-        $templates = $this->db->runSQL($sql, $input)->fetchAll();
-        $result = $templates[0]['template'] . $url . $templates[1]['template'];
-        return $result;
+        try {
+            $templates = $this->db->runSQL($sql, $input)->fetchAll();
+            $result = $templates[0]['template'] . $url . $templates[1]['template'];
+            return ['valid'=>true,'data'=>$result];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
     }
 }
 ?>

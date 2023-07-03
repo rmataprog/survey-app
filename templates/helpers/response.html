@@ -11,23 +11,25 @@ Survey App - Conduct
     </div>
     <div class="row">
         {% if type == 1 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/checked.png">
+        <img class="responsive-img logo" alt="checked" src="{{ doc_root }}img/checked.png">
         {% elseif type == 2 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/schedule.png">
+        <img class="responsive-img logo" alt="schedule" src="{{ doc_root }}img/schedule.png">
         {% elseif type == 3 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/email.png">
+        <img class="responsive-img logo" alt="email" src="{{ doc_root }}img/email.png">
         {% elseif type == 4 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/thank-you.png">
+        <img class="responsive-img logo" alt="thank-you" src="{{ doc_root }}img/thank-you.png">
         {% elseif type == 5 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/time.png">
+        <img class="responsive-img logo" alt="time" src="{{ doc_root }}img/time.png">
         {% elseif type == 6 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/login.png">
+        <img class="responsive-img logo" alt="login" src="{{ doc_root }}img/login.png">
         {% elseif type == 7 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/wrong-password.png">
+        <img class="responsive-img logo" alt="wrong-password" src="{{ doc_root }}img/wrong-password.png">
         {% elseif type == 8 %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/magnifying-glass.png">
+        <img class="responsive-img logo" alt="magnifying-glass" src="{{ doc_root }}img/magnifying-glass.png">
+        {% elseif type == 9 %}
+        <img class="responsive-img logo" alt="failed-message" src="{{ doc_root }}img/failed-message.png">
         {% else %}
-        <img class="responsive-img logo" src="{{ doc_root }}img/archive.png">
+        <img class="responsive-img logo" alt="archive" src="{{ doc_root }}img/archive.png">
         {% endif %}
     </div>
 </div>
