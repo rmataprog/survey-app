@@ -32,7 +32,7 @@ class User {
         } 
     }
 
-    public function verifyEmailExistense(string $email): int {
+    public function verifyEmailExistense(string $email): array {
         $sql = 'SELECT COUNT(*)
             FROM user_
             WHERE user_.email = :email';
@@ -47,7 +47,7 @@ class User {
         }
     }
 
-    public function getUser(string $email) {
+    public function getUserWEmail(string $email) {
         $sql = "SELECT id,
             first_name,
             last_name,
@@ -59,6 +59,28 @@ class User {
         
         $input = [
             'email' => $email
+        ];
+        try {
+            $data = $this->db->runSQL($sql, $input)->fetch();
+            return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
+    }
+
+    public function getUserWId(int $id) {
+        $sql = "SELECT id,
+            first_name,
+            last_name,
+            email,
+            coordinator,
+            password_,
+            confirmed
+            FROM user_
+            WHERE user_.id = :id";
+        
+        $input = [
+            'id' => $id
         ];
         try {
             $data = $this->db->runSQL($sql, $input)->fetch();
@@ -161,6 +183,24 @@ class User {
             return ['valid'=>true,'data'=>$result];
         } catch (\PDOException $e) {
             return ['valid'=>false];
+        }
+    }
+
+    public function updateUser(int $id, string $first_name, string $last_name) {
+        $sql = "UPDATE user_
+                SET first_name = :first_name,
+                    last_name = :last_name
+                WHERE id = :id";
+        $input = [
+            'id'=>$id,
+            'first_name'=>$first_name,
+            'last_name'=>$last_name
+        ];
+        try {
+            $this->db->runSQL($sql, $input);
+            return true;
+        } catch (\PDOException $e) {
+            return false;
         }
     }
 }

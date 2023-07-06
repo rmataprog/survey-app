@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($existence['valid']) {
         $exits = $existence['data'];
         if($exits > 0) {
-            $data = $cms->getUser()->getUser($email);
+            $data = $cms->getUser()->getUserWEmail($email);
             if($data['valid']) {
                 $hash = $data['data']['password_'];
                 $confirm = password_verify($password, $hash);

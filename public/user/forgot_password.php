@@ -5,7 +5,7 @@ require '../../src/bootstrap.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $expiry_date = get_expiration_date();
-    $user_data = $cms->getUser()->getUser($email);
+    $user_data = $cms->getUser()->getUserWEmail($email);
     $token = $cms->getUser()->createToken($user_data['data']['id'], 'forgot password', $expiry_date);
     if($user_data['valid'] && $token['valid']) {
         $link = DOMAIN . DOC_ROOT . 'user/reset_password.php?token=' . $token['data'];
@@ -36,6 +36,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo $twig->render('helpers/response.html', $data);
     }
 } else {
-    echo $twig->render('user/forgot_password.html');
+    $data = [];
+    if(isset($_GET['email'])) {
+        $data['email'] = $_GET['email'];
+    }
+    echo $twig->render('user/forgot_password.html', $data);
 }
 ?>

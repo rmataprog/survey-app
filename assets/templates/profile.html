@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            main {
+                flex: 1 0 auto;
+            }
+        </style>
+        <title>Survey App</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a class="brand-logo center">Logo</a>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div class="container">
+                <div class="section">
+                    <div class="row">
+                        <h2 class="center-align">Profile</h2>
+                    </div>
+                </div>
+                <div class="section">
+                    <form action="" method="POST">
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <input type="email" name="email" class="validate" value="rmata.ufs@gmail.com" disabled>
+                                <label for="email">Email</label>
+                                <span class="helper-text hide"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <input type="text" name="first_name" class="validate" value="Ruben" disabled>
+                                <label for="first_name">First name</label>
+                                <span class="helper-text hide"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <input type="text" name="last_name" class="validate" value="Mata" disabled>
+                                <label for="last_name">Last name</label>
+                                <span class="helper-text hide"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s3 left offset-s3"><a href="" class="btn">Reset Password</a></div>
+                            <div class="col s3">
+                                <button class="btn right hide" id="save" type="submit">Save</button>
+                                <button class="btn right" id="edit">Edit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container center-align">© 2023 Survey App</div>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var helper_texts = document.getElementsByClassName('helper-text');
+                var email_regex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                var email = document.forms.item(0).email;
+                var name_regex = /^[a-zA-Z]{0,50}$/;
+                var first_name = document.forms.item(0).first_name;
+                var last_name = document.forms.item(0).last_name;
+
+                $('#save').on('click', function(e) {
+                    var valid = true;
+
+                    if(email.value == '' || !email_regex.test(email.value)) {
+                        error_message_adder(0, email, helper_texts, 'Please provide a well formatted email');
+                        valid = false;
+                    } else {
+                        class_toggler(0, email, helper_texts);
+                    }
+
+                    if(!name_regex.test(first_name.value)) {
+                        error_message_adder(1, first_name, helper_texts, 'First name can only contain letters');
+                        valid = false;
+                    } else {
+                        class_toggler(1, first_name, helper_texts);
+                    }
+
+                    if(!name_regex.test(last_name.value)) {
+                        error_message_adder(2, last_name, helper_texts, 'Last name can only contain letters');
+                        valid = false;
+                    } else {
+                        class_toggler(2, last_name, helper_texts);
+                    }
+
+                    if(!valid) {
+                        e.preventDefault();
+                    }
+                });
+
+                $('#edit').on('click', function(e) {
+                    e.preventDefault();
+                    var save = $('#save');
+                    save.removeClass('hide');
+                    e.target.classList.add('hide');
+                    email.disabled = false;
+                    first_name.disabled = false;
+                    last_name.disabled = false;
+                });
+
+                function error_message_adder(item, element, helper_texts, message) {
+                    helper_texts.item(item).setAttribute('data-error', message);
+                    helper_texts.item(item).classList.toggle('hide');
+                    if(helper_texts.item(item).classList.contains('hide')) {
+                        helper_texts.item(item).classList.toggle('hide');
+                    }
+                    if(!element.classList.contains('invalid')) {
+                        element.classList.toggle('invalid');
+                    }
+                }
+
+                function class_toggler(item, element, helper_texts) {
+                    if(!helper_texts.item(item).classList.contains('hide')) {
+                        helper_texts.item(item).classList.toggle('hide');
+                    }
+                    if(element.classList.contains('invalid')) {
+                        element.classList.toggle('invalid');
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
