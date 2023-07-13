@@ -25,6 +25,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data['id'] = $user_data['data']['id'];
             $data['first_name'] = $user_data['data']['first_name'];
             $data['last_name'] = $user_data['data']['last_name'];
+            $data['email'] = $user_data['data']['email'];
+            $data['confirmed'] = $user_data['data']['confirmed'];
             echo $twig->render('user/profile.html', $data);
         } else {
             redirect(DOC_ROOT . "/user/profile.php");

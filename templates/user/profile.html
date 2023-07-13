@@ -23,16 +23,16 @@
             </div>
             <div class="row">
                 <div class="input-field col s6 offset-s3">
-                    <input type="text" name="first_name" class="validate" value="{{ first_name }}" disabled>
+                    <input type="text" name="first_name" class="validate{% if error is defined %} invalid{% endif %}" value="{{ first_name }}" disabled>
                     <label for="first_name">First name</label>
-                    <span class="helper-text hide">{{ error.first_name }}</span>
+                    <span class="helper-text red-text {% if error is not defined %}hide{% endif %}">{{ error.first_name }}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6 offset-s3">
-                    <input type="text" name="last_name" class="validate" value="{{ last_name }}" disabled>
+                    <input type="text" name="last_name" class="validate{% if error is defined %} invalid{% endif %}" value="{{ last_name }}" disabled>
                     <label for="last_name">Last name</label>
-                    <span class="helper-text hide">{{ error.last_name }}</span>
+                    <span class="helper-text red-text {% if error is not defined %}hide{% endif %}">{{ error.last_name }}</span>
                 </div>
             </div>
             <div class="row">

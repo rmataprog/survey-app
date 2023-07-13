@@ -8,17 +8,17 @@ $(document).ready(function() {
         var valid = true;
 
         if(!name_regex.test(first_name.value)) {
-            error_message_adder(1, first_name, helper_texts, 'First name can only contain letters');
+            error_message_adder(0, first_name, helper_texts, 'First name can only contain letters');
             valid = false;
         } else {
-            class_toggler(1, first_name, helper_texts);
+            class_toggler(0, first_name, helper_texts);
         }
 
         if(!name_regex.test(last_name.value)) {
-            error_message_adder(2, last_name, helper_texts, 'Last name can only contain letters');
+            error_message_adder(1, last_name, helper_texts, 'Last name can only contain letters');
             valid = false;
         } else {
-            class_toggler(2, last_name, helper_texts);
+            class_toggler(1, last_name, helper_texts);
         }
 
         if(!valid) {
