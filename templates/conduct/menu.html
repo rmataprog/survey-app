@@ -1,10 +1,10 @@
 <div class="nav-wrapper deep-purple darken-4">
-    <a class="brand-logo right" href="{{doc_root}}home.php">SURVEY APP</a>
+    <a class="brand-logo right" href="{{doc_root}}home">SURVEY APP</a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="{{ doc_root }}view/view.php">View Results</a></li>
-        {% if coordinator == 1 %}<li><a href="{{ doc_root }}define/define.php">Define</a></li>{% endif %}
-        <li class="active"><a href="{{ doc_root }}conduct/list.php">{% if coordinator == 1 %}Conduct{% else %}Participate{% endif %}</a></li>
-        <li><a href="{{ doc_root }}user/profile.php">Profile</a></li>
-        <li><a href="{{ doc_root }}user/logout.php">Sign out</a></li>
+        <li><a href="{{ doc_root }}view/view">View Results</a></li>
+        {% if coordinator == 1 %}<li><a href="{{ doc_root }}define/define">Define</a></li>{% endif %}
+        <li class="active"><a href="{{ doc_root }}conduct/list">{% if coordinator == 1 %}Conduct{% else %}Participate{% endif %}</a></li>
+        <li><a href="{{ doc_root }}user/profile">Profile</a></li>
+        <li><a href="{{ doc_root }}user/logout">Sign out</a></li>
     </ul>
 </div>

@@ -10,7 +10,7 @@ Survey App - Define Edit
 
 {% block content %}
 <div class="container">
-    <form id="createForm" action="{{ doc_root }}define/create.php" method="POST">
+    <form id="createForm" action="{{ doc_root }}define/create" method="POST">
         <div class="section">
             <div class="input-field col s12">
                 <input type="text" class="validate" name="title" placeholder="Survey title" id="title" value="{{ survey.title }}">
@@ -55,7 +55,7 @@ Survey App - Define Edit
         <div class="section">
             <div class="row">
                 <div class="col s6">
-                    <a class="waves-effect waves-light btn-small orange accent-4" href="{{ doc_root }}define/define.php">Cancel</a>
+                    <a class="waves-effect waves-light btn-small orange accent-4" href="{{ doc_root }}define/define">Cancel</a>
                 </div>
                 <div class="col s6">
                     <button class="right waves-effect waves-light btn-small orange accent-4" type="submit" id="save">Save</button>

@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login.php");
+    redirect(DOC_ROOT . "/user/login");
 }
 $id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
@@ -28,6 +28,6 @@ if($coordinator) {
     $data['coordinator'] = $cms->getSession()->coordinator;
     echo $twig->render('define/define.html', $data);
 } else {
-    redirect(DOC_ROOT . "/view/view.php");
+    redirect(DOC_ROOT . "/view/view");
 }
 ?>

@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login.php");
+    redirect(DOC_ROOT . "/user/login");
 }
 $coordinator = $cms->getSession()->coordinator;
 if($coordinator) {
@@ -72,20 +72,20 @@ if($coordinator) {
                         $deleted = $cms->getSurvey()->delete_questions($survey_id);
                         if(!$deleted) {
                             $message = 'There was a problem saving the edits of the survey';
-                            redirect(DOC_ROOT . '/define/define.php', ['error'=>true, 'error_message'=>$message]);
+                            redirect(DOC_ROOT . '/define/define', ['error'=>true, 'error_message'=>$message]);
                         }
                     } else {
-                        redirect(DOC_ROOT . '/define/create.php', ['error'=>true, 'error_message'=>$data['message']]);
+                        redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>$data['message']]);
                     }
                 } else {
-                    redirect(DOC_ROOT . 'notFound.php');
+                    redirect(DOC_ROOT . 'notFound');
                 }
             } else {
                 $data = $cms->getSurvey()->create_survey($id, $title);
                 if($data['valid']) {
                     $survey_id = filter_var($data['data'], FILTER_VALIDATE_INT);
                 } else {
-                    redirect(DOC_ROOT . '/define/create.php', ['error'=>true, 'error_message'=>$data['message']]);
+                    redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>$data['message']]);
                 }
             }
             $create = $cms->getSurvey()->create_questions($survey_id, $questions_array);
@@ -103,12 +103,12 @@ if($coordinator) {
                     $survey = [];
                     $survey['title'] = $title;
                     $survey['questions'] = create_question_answer_array($questions['data'], $answers['data']);
-                    redirect(DOC_ROOT . '/define/defined.php', ['survey_id'=>$survey_id]);
+                    redirect(DOC_ROOT . '/define/defined', ['survey_id'=>$survey_id]);
                 } else {
-                    redirect(DOC_ROOT . '/define/create.php', ['error'=>true, 'error_message'=>'There was problem creating answers for the survey']);                        
+                    redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>'There was problem creating answers for the survey']);                        
                 }
             } else {
-                redirect(DOC_ROOT . '/define/create.php', ['error'=>true, 'error_message'=>$create['message']]);
+                redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>$create['message']]);
             }
         }
     } else {
@@ -121,6 +121,6 @@ if($coordinator) {
         echo $twig->render('define/create.html', $data);
     }
 } else {
-    redirect(DOC_ROOT . '/view/view.php');
+    redirect(DOC_ROOT . '/view/view');
 }
 ?>

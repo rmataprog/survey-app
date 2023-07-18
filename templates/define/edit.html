@@ -10,7 +10,7 @@ Survey App - Define Edit
 
 {% block content %}
 <div class="container">
-    <form id="createForm" action="{{ doc_root }}define/create.php?survey_id={{ survey.id }}" method="POST">
+    <form id="createForm" action="{{ doc_root }}define/create/{{ survey.id }}" method="POST">
         <div class="section">
             <div class="input-field col s12">
                 <input type="text" class="validate" name="title" placeholder="Survey title" id="title" value="{{ survey.title }}">

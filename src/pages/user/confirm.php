@@ -36,6 +36,6 @@ if($token) {
     }
 } else {
     $cms->getSession()->delete();
-    redirect(DOC_ROOT . 'notFound.php');
+    redirect(DOC_ROOT . 'notFound');
 }
 ?>

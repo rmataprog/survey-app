@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $data['token'] = $_GET['token'];
         echo $twig->render('user/reset_password.html', $data);
     } else {
-        redirect(DOC_ROOT . "user/login.php");
+        redirect(DOC_ROOT . "user/login");
     }
 }
 ?>

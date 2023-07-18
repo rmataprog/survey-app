@@ -33,10 +33,10 @@ Survey App - Defined
     {% endif %}
     <div class="row">
         <div class="col s6">
-            <a class="btn waves-effect waves-light left orange accent-4 {{ started ? 'disabled' : '' }}" href="{{ doc_root }}conduct/start.php?survey_id={{ survey_id }}">Conduct</a>
+            <a class="btn waves-effect waves-light left orange accent-4 {{ started ? 'disabled' : '' }}" href="{{ doc_root }}conduct/start/{{ survey_id }}">Conduct</a>
         </div>
         <div class="col s6">
-            <a class="btn waves-effect waves-light right orange accent-4 {{ started ? 'disabled' : '' }}" href="{{ doc_root }}define/edit.php?survey_id={{ survey_id }}">Edit</a>
+            <a class="btn waves-effect waves-light right orange accent-4 {{ started ? 'disabled' : '' }}" href="{{ doc_root }}define/edit/{{ survey_id }}">Edit</a>
         </div>
     </div>
 </div>

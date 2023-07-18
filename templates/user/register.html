@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="section">
-        <form action="{{ doc_root }}user/register.php" method="POST">
+        <form action="{{ doc_root }}user/register" method="POST">
             <div class="row">
                 <div class="input-field col s6 offset-s3">
                     <input type="text" name="email" class="validate {{ error.email ? 'invalid' : '' }}" value="{{ email }}">
@@ -59,7 +59,7 @@
             </div>
             <div class="row">
                 <div class="col s3 left offset-s3">
-                    <a href="{{ doc_root }}home.php" class="btn orange accent-4 waves-effect waves-light">
+                    <a href="{{ doc_root }}home" class="btn orange accent-4 waves-effect waves-light">
                         Cancel
                     </a>
                 </div>

@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login.php");
+    redirect(DOC_ROOT . "/user/login");
 }
 $user_id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
@@ -25,7 +25,7 @@ $data['coordinator'] = $coordinator;
 if($surveys['valid']) {
     $data['surveys'] = array_slice($surveys['data'], $offset, 3);
     $data['total'] = count($surveys['data']);
-    $data['path'] = 'view/view.php';
+    $data['path'] = 'view/view';
     $data["current"] = floor($offset / 3);
 } else {
     $data['error'] = 'there was a problem getting the surveys';

@@ -7,7 +7,7 @@ if(!$cms->getSession()->logged_in) {
 $user_id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
 if($coordinator) {
-    $survey['coordinator'] = $coordinator;
+    $data['coordinator'] = $coordinator;
     $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
     $error = filter_input(INPUT_GET, 'error', FILTER_VALIDATE_BOOLEAN);
     $error_message = isset($_GET['error_message'])? $_GET['error_message'] : '';
@@ -16,7 +16,7 @@ if($coordinator) {
             $survey = $cms->getSurvey()->get_survey_for_user($user_id, $survey_id);
             if($survey['valid']) {
                 if($survey['data']) {
-                    $data = $survey['data'];
+                    $data = array_merge($data, $survey['data']);
                 } else {
                     redirect(DOC_ROOT . 'notFound.php');
                 }

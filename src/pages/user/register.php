@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $cms->getSession()->start(['id'=>$id, 'coordinator'=>$data['coordinator']]);
                     $expiry_date = get_expiration_date();
                     $token = $cms->getUser()->createToken($id, 'confirm email', $expiry_date);
-                    $link = DOMAIN . DOC_ROOT . 'user/confirm.php?token=' . $token['data'];
+                    $link = DOMAIN . DOC_ROOT . 'user/confirm/' . $token['data'];
                     $body = $cms->getUser()->CreateEmailTemplate(1, $link);
                     if($token['valid'] && $body['valid']) {
                         $message = [

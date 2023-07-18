@@ -37,7 +37,7 @@ Survey App - Conduct
                         {% if coordinator == 1 %}
                         <div class="card-action right-align">
                             {% if survey.start_date == null %}
-                            <a href="{{ doc_root }}conduct/start.php?survey_id={{ survey.id }}">Start</a>
+                            <a href="{{ doc_root }}conduct/start/{{ survey.id }}">Start</a>
                             {% else %}
                             <span>
                                 {% if date() > date(survey.start_date) %}Started{% endif %}
@@ -51,7 +51,7 @@ Survey App - Conduct
                         </div>
                         {% else %}
                         <div class="card-action right-align">
-                            <a href="{{ doc_root }}conduct/participate.php?id={{ survey.id }}" target="_blank">Participate</a>
+                            <a href="{{ doc_root }}conduct/participate/{{ survey.id }}" target="_blank">Participate</a>
                         </div>
                         {% endif %}
                     </div>

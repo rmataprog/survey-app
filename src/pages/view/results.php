@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login.php");
+    redirect(DOC_ROOT . "/user/login");
 }
 $user_id = $cms->getSession()->id;
 $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
@@ -28,15 +28,15 @@ if($survey_id) {
                 $data['coordinator'] = $cms->getSession()->coordinator;
                 echo $twig->render('view/results.html', $data);
             } else {
-                redirect(DOC_ROOT . "view/view.php", ['error'=>'There was a problem getting survey results']);
+                redirect(DOC_ROOT . "view/view", ['error'=>'There was a problem getting survey results']);
             }
         } else {
-            redirect(DOC_ROOT . "view/view.php", ['error'=>'survey could not be found']);
+            redirect(DOC_ROOT . "view/view", ['error'=>'survey could not be found']);
         }
     } else {
-        redirect(DOC_ROOT . "view/view.php", ['error'=>'There was a problem retrieving survey participation data']);
+        redirect(DOC_ROOT . "view/view", ['error'=>'There was a problem retrieving survey participation data']);
     }
 } else {
-    redirect(DOC_ROOT . "view/view.php", ['error'=>'survey could not be found']);
+    redirect(DOC_ROOT . "view/view", ['error'=>'survey could not be found']);
 }
 ?>

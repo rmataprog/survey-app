@@ -29,14 +29,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data['confirmed'] = $user_data['data']['confirmed'];
             echo $twig->render('user/profile.html', $data);
         } else {
-            redirect(DOC_ROOT . "/user/profile.php");
+            redirect(DOC_ROOT . "/user/profile");
         }
     } else {
         $success = $cms->getUser()->updateUser($user_id, $form['first_name'], $form['last_name']);
         if($success) {
-            redirect(DOC_ROOT . "/user/profile.php");
+            redirect(DOC_ROOT . "/user/profile");
         } else {
-            redirect(DOC_ROOT . "/user/profile.php", ['error'=>'There was a problem updating your data']);
+            redirect(DOC_ROOT . "/user/profile", ['error'=>'There was a problem updating your data']);
         }
     }
 }

@@ -19,7 +19,7 @@ Survey App - Conduct
         </div>
     </div>
     <div class="section">
-        <form action="{{ doc_root }}conduct/participate.php?id={{ survey.id }}" method="POST">
+        <form action="{{ doc_root }}conduct/participate/{{ survey.id }}" method="POST">
             {% for question in questions %}
             <ol class="collection" start="1">
                 <li class="collection-item">{{ question.question.content }}<br /><span class="helper-text"></span></li>
@@ -34,7 +34,7 @@ Survey App - Conduct
             </ol>
             {% endfor %}
             <div class="row">
-                <div class="col s6 left"><button class="btn waves-effect waves-light left orange accent-4">cancel</button></div>
+                <div class="col s6 left"><button class="btn waves-effect waves-light left orange accent-4" id="cancel">cancel</button></div>
                 <div class="col s6"><button class="btn right waves-effect waves-light left orange accent-4" id="submit" type="submit">submit</button></div>
             </div>
         </form>

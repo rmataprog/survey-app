@@ -6,7 +6,7 @@ $data['error']['email']['look'] = 'hide';
 $data['error']['email']['message'] = '';
 
 if($cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . 'view/view.php');
+    redirect(DOC_ROOT . 'view/view');
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo $twig->render('user/login.html', $data);
                 } else {
                     $cms->getSession()->start($data['data']);
-                    redirect(DOC_ROOT . 'view/view.php');
+                    redirect(DOC_ROOT . 'view/view');
                 }
             } else {
                 $data['error']['email']['message'] = 'there was a problem login';

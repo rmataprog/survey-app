@@ -3,7 +3,7 @@ declare(strict_types = 1);
 require '../../src/bootstrap.php';
 
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login.php");
+    redirect(DOC_ROOT . "/user/login");
 }
 
 $id = $cms->getSession()->id;
@@ -27,23 +27,23 @@ if($coordinator) {
                         echo $twig->render('define/copy.html', $data);
                     } else {
                         $load = ['error'=>true, 'error_message'=>'There was a problem retrieving data from survey'];
-                        redirect(DOC_ROOT . '/define/define.php', $load);
+                        redirect(DOC_ROOT . '/define/define', $load);
                     }
                 } else {
-                    redirect(DOC_ROOT . 'notFound.php');
+                    redirect(DOC_ROOT . 'notFound');
                 }
             } else {
                 $message = "There was a problem retrieving data from survey";
                 $load = ['error'=>true, 'error_message'=>$message];
-                redirect(DOC_ROOT . '/define/define.php', $load);
+                redirect(DOC_ROOT . '/define/define', $load);
             }
         } else {
-            redirect(DOC_ROOT . 'notFound.php');
+            redirect(DOC_ROOT . 'notFound');
         }
     } else {
-        redirect(DOC_ROOT . '/view/view.php');
+        redirect(DOC_ROOT . '/view/view');
     }
 } else {
-    redirect(DOC_ROOT . '/view/view.php');
+    redirect(DOC_ROOT . '/view/view');
 }
 ?>

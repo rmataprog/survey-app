@@ -15,7 +15,7 @@ Survey App - Define Create
         <h4 class="center-align red-text">{{ error.message }}</h4>
     </div>
     {% endif%}
-    <form id="createForm" action="{{ doc_root }}define/create.php" method="POST">
+    <form id="createForm" action="{{ doc_root }}define/create" method="POST">
         <div class="section">
             <div class="input-field col s12">
                 <input type="text" class="validate {{ invalid ? 'invalid' : 'valid'}}" name="title" placeholder="Survey title" id="title" value="{{ invalid ? title.content : ''}}">

@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_data = $cms->getUser()->getUserWEmail($email);
     $token = $cms->getUser()->createToken($user_data['data']['id'], 'forgot password', $expiry_date);
     if($user_data['valid'] && $token['valid']) {
-        $link = DOMAIN . DOC_ROOT . 'user/reset_password.php?token=' . $token['data'];
+        $link = DOMAIN . DOC_ROOT . 'user/reset_password/' . $token['data'];
         $body = $cms->getUser()->CreateEmailTemplate(2, $link);
         if($body['valid']) {
             $email_config = [
