@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 
 $survey_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ? intval($_GET['id']) : false;
 $user_id = $_SESSION['id'] ?? 0;

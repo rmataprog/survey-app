@@ -80,7 +80,7 @@ class Survey {
     }
 
     public function create_survey(int $id, string $title) {
-        $sql = "INSERT INTO survey (title, user_id)
+        $sql = "INSERT INTO survey_ (title, user_id)
             VALUES (:title, :id)";
         $input = [
             "title"=>$title,

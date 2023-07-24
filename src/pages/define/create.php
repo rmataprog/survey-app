@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login");
+    redirect(DOC_ROOT . "user/login");
 }
 $coordinator = $cms->getSession()->coordinator;
 if($coordinator) {
@@ -65,17 +65,20 @@ if($coordinator) {
         } else {
             $edit = isset($_POST['edit']) ? true : false;
             if($edit) {
-                $survey_id = filter_input(INPUT_GET, 'survey_id', FILTER_VALIDATE_INT);
-                if($survey_id) {
-                    $data = $cms->getSurvey()->update_survey($survey_id, $title);
-                    if($data['valid']) {
-                        $deleted = $cms->getSurvey()->delete_questions($survey_id);
-                        if(!$deleted) {
-                            $message = 'There was a problem saving the edits of the survey';
-                            redirect(DOC_ROOT . '/define/define', ['error'=>true, 'error_message'=>$message]);
+                if(isset($variable_1)) {
+                    $survey_id = filter_var($variable_1, FILTER_VALIDATE_INT);
+                    if($survey_id) {
+                        $data = $cms->getSurvey()->update_survey($survey_id, $title);
+                        if($data['valid']) {
+                            $deleted = $cms->getSurvey()->delete_questions($survey_id);
+                            if(!$deleted) {
+                                redirect(DOC_ROOT . 'define/define/error/' . rawurlencode('There was a problem saving the edits of the survey'));
+                            }
+                        } else {
+                            redirect(DOC_ROOT . 'define/create/error/' . rawurlencode($data['message']));
                         }
                     } else {
-                        redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>$data['message']]);
+                        redirect(DOC_ROOT . 'notFound');
                     }
                 } else {
                     redirect(DOC_ROOT . 'notFound');
@@ -85,7 +88,7 @@ if($coordinator) {
                 if($data['valid']) {
                     $survey_id = filter_var($data['data'], FILTER_VALIDATE_INT);
                 } else {
-                    redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>$data['message']]);
+                    redirect(DOC_ROOT . 'define/create/error/' . rawurlencode($data['message']));
                 }
             }
             $create = $cms->getSurvey()->create_questions($survey_id, $questions_array);
@@ -103,24 +106,24 @@ if($coordinator) {
                     $survey = [];
                     $survey['title'] = $title;
                     $survey['questions'] = create_question_answer_array($questions['data'], $answers['data']);
-                    redirect(DOC_ROOT . '/define/defined', ['survey_id'=>$survey_id]);
+                    redirect(DOC_ROOT . 'define/defined/' . $survey_id);
                 } else {
-                    redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>'There was problem creating answers for the survey']);                        
+                    $message = 'There was problem creating answers for the survey';
+                    redirect(DOC_ROOT . 'define/create/error/' . rawurlencode($message));                        
                 }
             } else {
-                redirect(DOC_ROOT . '/define/create', ['error'=>true, 'error_message'=>$create['message']]);
+                redirect(DOC_ROOT . 'define/create/error/' . rawurlencode($create['message']));
             }
         }
     } else {
         $data['coordinator'] = $coordinator;
-        $error = filter_input(INPUT_GET, 'error', FILTER_VALIDATE_BOOLEAN);
-        $retrieve_error = isset($_GET['error_message']) ? $_GET['error_message'] : '';
-        if($error) {
-            $data['error']['message'] = $retrieve_error;
+        $retrieve_error = isset($variable_2) ? $variable_2 : '';
+        if(isset($variable_1) && $variable_1 == 'error') {
+            $data['error']['message'] = rawurldecode($retrieve_error);
         }
         echo $twig->render('define/create.html', $data);
     }
 } else {
-    redirect(DOC_ROOT . '/view/view');
+    redirect(DOC_ROOT . 'view/view');
 }
 ?>

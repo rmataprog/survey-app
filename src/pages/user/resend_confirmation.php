@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 
-$user_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$user_id = filter_var($variable_1, FILTER_VALIDATE_INT);
 
 if($user_id) {
     $expiration_date = get_expiration_date();

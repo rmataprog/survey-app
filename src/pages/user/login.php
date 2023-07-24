@@ -1,6 +1,5 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
 
 $data['error']['email']['look'] = 'hide';
 $data['error']['email']['message'] = '';

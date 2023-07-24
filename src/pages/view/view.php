@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
     redirect(DOC_ROOT . "/user/login");
 }
@@ -12,7 +12,12 @@ $error = $_GET['error'] ?? '';
 $options = [
     'default' => 0
 ];
-$offset = filter_input(INPUT_GET, 'offset', FILTER_VALIDATE_INT) ? intval($_GET['offset']) : 0;
+
+if(!isset($variable_1)) {
+    $offset = 0;
+} else {
+    $offset = filter_var($variable_1, FILTER_VALIDATE_INT) ? filter_var($variable_1, FILTER_VALIDATE_INT) : 0;
+}
 
 if($coordinator == 1) {
     $surveys = $cms->getSurvey()->get_survey_list_submissions($user_id);

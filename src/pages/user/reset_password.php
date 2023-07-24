@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
@@ -36,8 +36,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo $twig->render('user/reset_password.html', $data);
     }
 } else {
-    if(isset($_GET['token'])) {
-        $data['token'] = $_GET['token'];
+    if(isset($variable_1)) {
+        $data['token'] = $variable_1;
         echo $twig->render('user/reset_password.html', $data);
     } else {
         redirect(DOC_ROOT . "user/login");

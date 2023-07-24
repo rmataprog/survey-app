@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 
 $cms->getSession()->delete();
 

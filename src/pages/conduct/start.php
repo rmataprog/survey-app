@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 if(!$cms->getSession()->logged_in) {
-    redirect(DOC_ROOT . "/user/login.php");
+    redirect(DOC_ROOT . "user/login");
 }
 $user_id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;

@@ -1,8 +1,12 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 
-$token = filter_input(INPUT_GET, 'token', FILTER_DEFAULT);
+if(!isset($variable_1)) {
+    $token = false;
+} else {
+    $token = filter_var($variable_1, FILTER_DEFAULT);
+}
 
 if($token) {
     $data = $cms->getUser()->getTokenData($token);

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-require '../../src/bootstrap.php';
+// require '../../src/bootstrap.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -37,8 +37,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } else {
     $data = [];
-    if(isset($_GET['email'])) {
-        $data['email'] = $_GET['email'];
+    if(isset($variable_1)) {
+        $data['email'] = filter_var($variable_1, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE);
     }
     echo $twig->render('user/forgot_password.html', $data);
 }
