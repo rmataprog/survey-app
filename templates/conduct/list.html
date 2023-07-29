@@ -13,7 +13,12 @@ Survey App - Conduct
     <div class="section">
         <div class="row">
             <h2 class="center-align">Conduct Survey</h2>
+            {% if start_error is defined %}
             <p class="center-align"><span class="helper-text red-text">{{ start_error }}</span></p>
+            {% endif %}
+            {% if close_success is defined %}
+            <p class="center-align"><span class="helper-text green-text">{{ close_success }}</span></p>
+            {% endif %}
         </div>
     </div>
     {% if error is defined %}
@@ -47,6 +52,10 @@ Survey App - Conduct
                                 {% if date() > date(survey.end_date) %}Ended{% endif %}
                                 on {{ survey.end_date|format_datetime(pattern="MMM dd y, hh:mm a") }}
                             </span>
+                                {% if date() > date(survey.start_date) and date() < date(survey.end_date) %}
+                                <br />
+                                <a href="{{ doc_root }}conduct/close/{{ survey.id }}">Close</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                         {% else %}

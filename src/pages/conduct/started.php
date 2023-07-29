@@ -48,29 +48,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             } else {
                                 $message = "We manage to start the survey: \"$title\", but had trouble retrieving its information";
                                 $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>$message];
-                                redirect(DOC_ROOT . 'conduct/list.php', $load);
+                                redirect(DOC_ROOT . 'conduct/list/error/' . rawurlencode($message));
                             }
                         } else {
                             $load = ['error'=>true, 'error_message'=>$valid['message']];
-                            redirect(DOC_ROOT . 'conduct/start.php', $load);
+                            $message = $valid['message'];
+                            redirect(DOC_ROOT . 'conduct/start/error/' . rawurlencode($message));
                         }
                     } else {
                         $message = "Survey \"$title\" already started";
                         $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>$message];
-                        redirect(DOC_ROOT . 'conduct/list.php', $load);
+                        redirect(DOC_ROOT . 'conduct/list/error/' . rawurlencode($message));
                     }
                 } else {
-                    redirect(DOC_ROOT . 'notFound.php');
+                    redirect(DOC_ROOT . 'notFound');
                 }
             } else {
                 $load = ['survey_id'=>$survey_id, 'error'=>true, 'error_message'=>'There was a problem starting the survey'];
-                redirect(DOC_ROOT . 'conduct/start.php', $load);
+                $message = 'There was a problem starting the survey';
+                redirect(DOC_ROOT . 'conduct/start/error/' . rawurlencode($message));
             }
         } else {
-            redirect(DOC_ROOT . 'notFound.php');
+            redirect(DOC_ROOT . 'notFound');
         }
     } else {
-        redirect(DOC_ROOT . 'conduct/list.php');
+        redirect(DOC_ROOT . 'conduct/list');
     }
 }
 

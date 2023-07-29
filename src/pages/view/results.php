@@ -28,18 +28,23 @@ if(isset($variable_1)) {
                     $data['coordinator'] = $cms->getSession()->coordinator;
                     echo $twig->render('view/results.html', $data);
                 } else {
-                    redirect(DOC_ROOT . "view/view", ['error'=>'There was a problem getting survey results']);
+                    $message = 'There was a problem getting survey results';
+                    redirect(DOC_ROOT . "view/view/error/" . rawurlencode($message));
                 }
             } else {
-                redirect(DOC_ROOT . "view/view", ['error'=>'survey could not be found']);
+                $message = 'survey could not be found';
+                redirect(DOC_ROOT . "view/view/error/" . rawurlencode($message));
             }
         } else {
-            redirect(DOC_ROOT . "view/view", ['error'=>'There was a problem retrieving survey participation data']);
+            $message = 'There was a problem retrieving survey participation data';
+            redirect(DOC_ROOT . "view/view/error/" . rawurlencode($message));
         }
     } else {
-        redirect(DOC_ROOT . "view/view", ['error'=>'survey could not be found']);
+        $message = 'survey could not be found';
+        redirect(DOC_ROOT . "view/view/error/" . rawurlencode($message));
     }
 } else {
-    redirect(DOC_ROOT . "view/view", ['error'=>'survey could not be found']);
+    $message = 'survey could not be found';
+    redirect(DOC_ROOT . "view/view/error/" . rawurlencode($message));
 }
 ?>

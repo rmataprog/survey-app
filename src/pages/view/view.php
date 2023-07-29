@@ -7,7 +7,7 @@ if(!$cms->getSession()->logged_in) {
 $user_id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
 
-$error = $_GET['error'] ?? '';
+$error = isset($variable_1) && $variable_1 == 'error' ? true : false;
 
 $options = [
     'default' => 0
@@ -37,7 +37,7 @@ if($surveys['valid']) {
 }
 
 if($error) {
-    $data['error'] = $error;
+    $data['error'] = isset($variable_2) ? $variable_2 : 'There was an error';
 }
 echo $twig->render('view/view.html', $data);
 ?>

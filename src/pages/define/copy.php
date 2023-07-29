@@ -28,7 +28,8 @@ if($coordinator) {
                             echo $twig->render('define/copy.html', $data);
                         } else {
                             $load = ['error'=>true, 'error_message'=>'There was a problem retrieving data from survey'];
-                            redirect(DOC_ROOT . '/define/define', $load);
+                            $message = 'There was a problem retrieving data from survey';
+                            redirect(DOC_ROOT . '/define/define/error/' . rawurlencode($message));
                         }
                     } else {
                         redirect(DOC_ROOT . 'notFound');
@@ -36,7 +37,7 @@ if($coordinator) {
                 } else {
                     $message = "There was a problem retrieving data from survey";
                     $load = ['error'=>true, 'error_message'=>$message];
-                    redirect(DOC_ROOT . '/define/define', $load);
+                    redirect(DOC_ROOT . '/define/define/error/' . rawurlencode($message));
                 }
             } else {
                 redirect(DOC_ROOT . 'notFound');

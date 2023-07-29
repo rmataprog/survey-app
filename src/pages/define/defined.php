@@ -26,16 +26,14 @@ if($coordinator) {
                         echo $twig->render('define/defined.html', $data);
                     } else {
                         $message = "There was a problem retrieving data from survey";
-                        $load = ['error'=>true, 'error_message'=>$message];
-                        redirect(DOC_ROOT . 'define/define', $load);
+                        redirect(DOC_ROOT . 'define/define/error/' . rawurlencode($message));
                     }
                 } else {
                     redirect(DOC_ROOT . 'notFound');
                 }
             } else {
                 $message = "There was a problem retrieving data from survey";
-                $load = ['error'=>true, 'error_message'=>$message];
-                redirect(DOC_ROOT . 'define/define', $load);
+                redirect(DOC_ROOT . 'define/define/error/' . rawurlencode($message));
             }
         } else {
             redirect(DOC_ROOT . 'notFound');

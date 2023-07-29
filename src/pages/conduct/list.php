@@ -8,38 +8,40 @@ if(!$cms->getSession()->logged_in) {
 
 $user_id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
-$offset = filter_input(INPUT_GET, 'offset', FILTER_VALIDATE_INT) ? intval($_GET['offset']) : 0;
-$error = filter_input(INPUT_GET, 'error', FILTER_VALIDATE_BOOLEAN);
-$start_error = isset($_GET['error_message'])? $_GET['error_message'] : '';
 
 if($coordinator) {
     $surveys_count = $cms->getSurvey()->surveys_exist($user_id);
-    $surveys = $cms->getSurvey()->get_surveys_for_id($user_id, $offset);
-    $data["path"] = 'conduct/list.php';
-    $data['coordinator'] = $coordinator;
-    if($surveys_count['valid']) {
-        if($surveys_count['data'] > 0) {
-            if($surveys['valid']) {
-                $data["surveys"] = $surveys['data'];
-                $data["total"] = $surveys_count['data'];
-                $data["current"] = floor($offset / $surveys['show']);
+    if(isset($variable_1) && $variable_1 == 'error') {
+        $data['start_error'] = isset($variable_2) ? rawurldecode($variable_2) : 'Error retrieving list data';
+    } else {
+        $offset = isset($variable_1) && filter_var($variable_1, FILTER_VALIDATE_INT) ? intval($variable_1) : 0;
+        $surveys = $cms->getSurvey()->get_surveys_for_id($user_id, $offset);
+        $data["path"] = 'conduct/list';
+        $data['coordinator'] = $coordinator;
+        if($surveys_count['valid']) {
+            if($surveys_count['data'] > 0) {
+                if($surveys['valid']) {
+                    $data["surveys"] = $surveys['data'];
+                    $data["total"] = $surveys_count['data'];
+                    $data["current"] = floor($offset / $surveys['show']);
+                } else {
+                    $data['error']['message'] = 'There was a problem retrieving the surveys';
+                }
             } else {
-                $data['error']['message'] = 'There was a problem retrieving the surveys';
+                $data['error']['message'] = "You haven't created any surveys yet";
             }
         } else {
-            $data['error']['message'] = "You haven't created any surveys yet";
+            $data['error']['message'] = 'There was a problem retrieving the surveys';
         }
-    } else {
-        $data['error']['message'] = 'There was a problem retrieving the surveys';
     }
-    if($error) {
-        $data['start_error'] = $start_error;
+    if(isset($variable_1) && $variable_1 == 'success') {
+        $data['start_error'] = isset($variable_2) ? rawurldecode($variable_2) : '';
     }
     echo $twig->render("conduct/list.html", $data);
 } else {
     $now = new DateTime();
     $surveys_count = $cms->getSurvey()->get_active_surveys_count($now->format('Y-m-d H:i:s'));
-    $data["path"] = 'conduct/list.php';
+    $data["path"] = 'conduct/list';
     $data['coordinator'] = $coordinator;
     if($surveys_count['valid']) {
         if($surveys_count > 0) {

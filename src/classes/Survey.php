@@ -80,7 +80,7 @@ class Survey {
     }
 
     public function create_survey(int $id, string $title) {
-        $sql = "INSERT INTO survey_ (title, user_id)
+        $sql = "INSERT INTO survey (title, user_id)
             VALUES (:title, :id)";
         $input = [
             "title"=>$title,
@@ -426,6 +426,22 @@ class Survey {
         try {
             $data = $this->db->runSQL($sql, $input)->fetchColumn();
             return ['valid'=>true, 'data'=>$data];
+        } catch (\PDOException $e) {
+            return ['valid'=>false];
+        }
+    }
+
+    public function close_survey(int $survey_id, $end_date): array {
+        $sql = "UPDATE survey
+            SET end_date = :end_date
+            WHERE id = :survey_id";
+        $input = [
+            "survey_id"=>$survey_id,
+            "end_date"=>$end_date
+        ];
+        try {
+            $this->db->runSQL($sql, $input);
+            return ['valid'=>true];
         } catch (\PDOException $e) {
             return ['valid'=>false];
         }

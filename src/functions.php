@@ -35,4 +35,9 @@ function get_expiration_date() {
     $expiry->add($interval);
     return $expiry->format('Y-m-d H:i:s');
 }
+
+function get_close_date() {
+    $expiry = new DateTime();
+    return $expiry->format('Y-m-d H:i:s');
+}
 ?>
