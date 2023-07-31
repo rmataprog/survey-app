@@ -1,5 +1,6 @@
 <div class="nav-wrapper deep-purple darken-4">
     <a class="brand-logo right" href="{{doc_root}}home">SURVEY APP</a>
+    <button id="menu_opener" class="btn waves-effect waves-light deep-purple darken-4"><i class="material-icons" style="line-height: 38px;">menu</i></button>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="{{ doc_root }}view/view">View Results</a></li>
         {% if coordinator == 1 %}<li class="active"><a href="{{ doc_root }}define/define">Define</a></li>{% endif %}
@@ -8,3 +9,11 @@
         <li><a href="{{ doc_root }}user/logout">Sign out</a></li>
     </ul>
 </div>
+
+<ul id="slide-out" class="sidenav">
+    <li><a href="{{ doc_root }}view/view">View Results</a></li>
+    {% if coordinator == 1 %}<li class="active"><a href="{{ doc_root }}define/define">Define</a></li>{% endif %}
+    <li><a href="{{ doc_root }}conduct/list">{% if coordinator == 1 %}Conduct{% else %}Participate{% endif %}</a></li>
+    <li><a href="{{ doc_root }}user/profile">Profile</a></li>
+    <li><a href="{{ doc_root }}user/logout">Sign out</a></li>
+</ul>

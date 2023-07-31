@@ -23,15 +23,15 @@ Survey App - Conduct
     </div>
     <div class="row">
         <form action="{{ doc_root }}conduct/started" method="POST">
-            <div class="input-field col s3 offset-s3">
+            <div class="input-field col s6 m4 offset-m2 l3 offset-l3">
                 <input type="text" class="datepicker validate" placeholder="start date" name="start_date">
                 <span class="helper-text" data-error=""></span>
             </div>
-            <div class="input-field col s3">
+            <div class="input-field col s6 m4 l3">
                 <input type="text" class="timepicker validate" placeholder="start time" name="start_time">
                 <span class="helper-text" data-error=""></span>
             </div>
-            <div class="col switch offset-s3 s9">
+            <div class="col switch s12 m10 offset-m2 l9 offset-l3">
                 <label>
                     Off
                     <input type="checkbox" name="start_immediately">
@@ -41,21 +41,21 @@ Survey App - Conduct
                 <br />
                 <label>Start immediately</label>
             </div>
-            <div class="input-field col s3 offset-s3">
+            <div class="input-field col s6 m4 offset-m2 l3 offset-l3">
                 <input type="text" class="datepicker validate" placeholder="end date" name="end_date">
                 <span class="helper-text" data-error=""></span>
             </div>
-            <div class="input-field col s3">
+            <div class="input-field col s6 m4 l3">
                 <input type="text" class="timepicker validate" placeholder="end time" name="end_time">
                 <span class="helper-text" data-error=""></span>
             </div>
             <div>
                 <input type="hidden" name="survey_id" value="{{ id }}">
             </div>
-            <div class="col offset-s3 s3">
+            <div class="col s6 m4 offset-m2 l3 offset-l3">
                 <a class="btn waves-effect waves-light left orange accent-4" href="{{ doc_root }}conduct/list">Back</a>
             </div>
-            <div class="col s3">
+            <div class="col s6 m4 l3">
                 <button class="btn waves-effect waves-light right orange accent-4" name="start" id="start">Start</button>
             </div>
         </form>

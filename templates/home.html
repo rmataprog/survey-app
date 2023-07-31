@@ -42,7 +42,7 @@ Survey App
         var $window = $(window);
         var $ele_1 = $('.container .row .col').first();
         $window.on('resize', function() {
-            if($window.width() < 992) {
+            if($window.width() <= 992) {
                 $ele_1.addClass('hide');
             } else {
                 $ele_1.removeClass('hide');

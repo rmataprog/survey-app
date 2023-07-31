@@ -19,7 +19,7 @@ Survey App - Conduct
     <div class="row">
         <form action="" method="POST">
             <div class="row">
-                <table class="centered col offset-s3 s6">
+                <table class="centered col s12 m8 offset-l2 l6 offset-l3">
                     <tr>
                         <td>Start date</td>
                         <td>{{ start_date|format_datetime(pattern="MMM dd y, hh:mm a") }}</td>
@@ -39,7 +39,7 @@ Survey App - Conduct
                 </table>
             </div>
             <div class="row">
-                <div class="col s6 offset-s3">
+                <div class="col s12 m8 offset-l2">
                     <a class="btn waves-effect waves-light right orange accent-4" style="width:100%" name="start" id="close" href="{{ doc_root }}conduct/close/{{ survey_id }}">close</a>
                 </div>
             </div>

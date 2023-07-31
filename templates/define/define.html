@@ -17,7 +17,7 @@ Survey App - Define
         <div>
             <p class="center-align flow-text">Define one from scratch...</p>
         </div>
-        <div class="col s4 offset-s4">
+        <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
             <a class="waves-effect waves-light btn orange accent-4" style="width: 100%;" href="{{ doc_root }}define/create">Create</a>
         </div>
     </div>
@@ -26,7 +26,7 @@ Survey App - Define
             <p class="center-align flow-text">...or view/copy a previous one</p>
         </div>
         <form method="POST">
-            <div class="input-field col s4 offset-s4">
+            <div class="input-field col s10 offset-s1 m6 offset-m3 l4 offset-l4">
                 {% if error is not defined %}
                 <select id="select_survey" name="survey_id">
                     <option value="" disabled selected>Select Survey</option>
@@ -42,10 +42,10 @@ Survey App - Define
                 <span class="helper-text red-text">{{ error.message }}</span>
                 {% endif %}
             </div>
-            <div class="col offset-s4 s2">
+            <div class="col s5 offset-s1 m3 offset-m3 l2 offset-l4">
                 <button class="btn waves-effect waves-light left {{ surveys_amount == 0 ? 'disabled' : '' }} orange accent-4" id="copy" type="submit">Copy</button>
             </div>
-            <div class="col s2">
+            <div class="col s5 m3 l2">
                 <button class="btn waves-effect waves-light right {{ surveys_amount == 0 ? 'disabled' : '' }} orange accent-4" id="view" type="submit">View</button>
             </div>
         </form>
