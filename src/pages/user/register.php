@@ -43,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $hash = password_hash($data['password'], PASSWORD_DEFAULT);
                 $register = $cms->getUser()->register(!$data['first_name'] ? null : $data['first_name'], !$data['last_name'] ? null : $data['last_name'], $data['email'], $data['coordinator'], $hash);
                 if($register['valid']) {
-                    $id = $register['data'];
+                    $id = intval($register['data']);
                     $cms->getSession()->start(['id'=>$id, 'coordinator'=>$data['coordinator']]);
                     $expiry_date = get_expiration_date();
                     $token = $cms->getUser()->createToken($id, 'confirm email', $expiry_date);

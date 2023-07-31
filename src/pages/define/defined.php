@@ -20,7 +20,7 @@ if($coordinator) {
                         $data = [];
                         $data['title'] = $survey['data']['title'];
                         $data['survey_id'] = $survey['data']['id'];
-                        $data['questions'] = create_question_answer_array($questions['data'], $answers['datan']);
+                        $data['questions'] = create_question_answer_array($questions['data'], $answers['data']);
                         $data['started'] = $survey['data']['start_date'] == null ? false : true;
                         $data['coordinator'] = $coordinator;
                         echo $twig->render('define/defined.html', $data);

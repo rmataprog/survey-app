@@ -7,7 +7,7 @@ class User {
         $this->db = $db;
     }
 
-    public function register(string|null $first_name, string|null $last_name, string $email, int $coordinator, string $password): int {
+    public function register(string|null $first_name, string|null $last_name, string $email, int $coordinator, string $password): array {
         $sql = 'INSERT INTO user_(
             first_name,
             last_name,

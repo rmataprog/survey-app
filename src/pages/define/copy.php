@@ -10,7 +10,7 @@ $id = $cms->getSession()->id;
 $coordinator = $cms->getSession()->coordinator;
 
 if($coordinator) {
-    if($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
         if(isset($variable_1)) {
             $survey_id = filter_var($variable_1, FILTER_VALIDATE_INT);
             if($survey_id) {

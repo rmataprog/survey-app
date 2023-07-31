@@ -14,8 +14,13 @@ if($coordinator) {
     if(isset($variable_1) && $variable_1 == 'error') {
         $data['start_error'] = isset($variable_2) ? rawurldecode($variable_2) : 'Error retrieving list data';
     } else {
-        $offset = isset($variable_1) && filter_var($variable_1, FILTER_VALIDATE_INT) ? intval($variable_1) : 0;
-        $surveys = $cms->getSurvey()->get_surveys_for_id($user_id, $offset);
+        $settings = array(
+            'options' => array(
+                'min_range' => 1
+            )
+        );
+        $offset = isset($variable_1) && filter_var($variable_1, FILTER_VALIDATE_INT, $settings) ? intval($variable_1) : 1;
+        $surveys = $cms->getSurvey()->get_surveys_for_id($user_id, ($offset - 1) * 3);
         $data["path"] = 'conduct/list';
         $data['coordinator'] = $coordinator;
         if($surveys_count['valid']) {
@@ -23,7 +28,7 @@ if($coordinator) {
                 if($surveys['valid']) {
                     $data["surveys"] = $surveys['data'];
                     $data["total"] = $surveys_count['data'];
-                    $data["current"] = floor($offset / $surveys['show']);
+                    $data["current"] = floor($offset);
                 } else {
                     $data['error']['message'] = 'There was a problem retrieving the surveys';
                 }
@@ -44,12 +49,18 @@ if($coordinator) {
     $data["path"] = 'conduct/list';
     $data['coordinator'] = $coordinator;
     if($surveys_count['valid']) {
-        if($surveys_count > 0) {
-            $surveys = $cms->getSurvey()->get_latest_surveys_to_respond($offset, $now->format('Y-m-d H:i:s'));
+        if($surveys_count['data'] > 0) {
+            $settings = array(
+                'options' => array(
+                    'min_range' => 1
+                )
+            );
+            $offset = isset($variable_1) && filter_var($variable_1, FILTER_VALIDATE_INT, $settings) ? intval($variable_1) : 1;
+            $surveys = $cms->getSurvey()->get_latest_surveys_to_respond(($offset - 1) * 3, $now->format('Y-m-d H:i:s'));
             if($surveys['valid']) {
                 $data["surveys"] = $surveys['data'];
-                $data["total"] = $surveys_count;
-                $data["current"] = floor($offset / 3);
+                $data["total"] = $surveys_count['data'];
+                $data["current"] = floor($offset);
             } else {
                 $data['error']['message'] = 'There was a problem retrieving the list of surveys';
             }

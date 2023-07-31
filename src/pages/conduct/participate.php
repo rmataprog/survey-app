@@ -68,6 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $survey_id = isset($variable_1) ? filter_var($variable_1, FILTER_VALIDATE_INT) : false;
     if($survey_id) {
         $date = new DateTime();
         $survey_taken_id = $cms->getSurvey()->take_survey($survey_id, $user_id, $date);

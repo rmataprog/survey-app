@@ -10,7 +10,7 @@ Survey App
         <div class="col s6">
             <img src="{{ doc_root }}img/online-survey.png" alt="online-survey" class="responsive-img">
         </div>
-        <div class="col s6">
+        <div class="col s12 l6">
             <h2>Create your own Surveys</h2>
             <ul class="collection">
                 <li class="collection-item">Create your account to see available surveys</li>
@@ -34,4 +34,20 @@ Survey App
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        var $window = $(window);
+        var $ele_1 = $('.container .row .col').first();
+        $window.on('resize', function() {
+            if($window.width() < 992) {
+                $ele_1.addClass('hide');
+            } else {
+                $ele_1.removeClass('hide');
+            }
+        });
+    })
+</script>
 {% endblock %}

@@ -21,7 +21,7 @@ Survey App - Conduct
     <div class="section">
         <form action="{{ doc_root }}conduct/participate/{{ survey.id }}" method="POST">
             {% for question in questions %}
-            <ol class="collection" start="1">
+            <ol class="collection" start="{{ loop.index }}">
                 <li class="collection-item">{{ question.question.content }}<br /><span class="helper-text"></span></li>
                 {% for answer in question.answers %}
                 <p>

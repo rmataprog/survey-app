@@ -2,7 +2,7 @@
 define('DEV', true);
 define('DOC_ROOT', '/survey-app/public/');
 define('ROOT_FOLDER', 'public');
-define('DOMAIN', 'http://localhost/');
+define('DOMAIN', 'http://localhost');
 
 $type = 'mysql';
 $server = 'localhost';

@@ -413,7 +413,7 @@ class Survey {
         }
     }
 
-    public function get_active_surveys_count($dateTime): int {
+    public function get_active_surveys_count($dateTime): array {
         $sql = "SELECT COUNT(*)
                 FROM survey
                 WHERE start_date IS NOT NULL
